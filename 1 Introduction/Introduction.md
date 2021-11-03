@@ -59,7 +59,12 @@ In practice we do:
 
 ## 3.Domains of learning
 
-1. ***supervised learning**:* training data comprises examples of the input vectors along with their corresponding target vectors. If the desired output consists of one or more continuous variables, then the task is called ***regression***.
-2. ***unsupervised learning***: training data consists of a set of input vectors x without any corresponding target values. Discovering groups of similar examples within the data is called ***clustering***. Determining the distribution of data within the input space is known as ***density estimation***.Project the data from a high-dimensional space down to two or three dimensions for the purpose of ***visualization***.
-3. 
+1. ***supervised learning**:* training data comprises examples of the input vectors along with their corresponding target vectors. 
+   * If the desired output consists of one or more continuous variables, then the task is called ***regression***.
+2. ***unsupervised learning***: training data consists of a set of input vectors x without any corresponding target values. 
+   * Discovering groups of similar examples within the data is called ***clustering***. 
+   * Determining the distribution of data within the input space is known as ***density estimation***.
+   * Project the data from a high-dimensional space down to two or three dimensions for the purpose of ***visualization***.
+3. ***reinforcement learning***: finding suitable actions to take in a given situation in order to maximize a reward. Learning algorithm is not given examples of optimal outputs, but must instead discover them by a process of trial and error.
+   * A general feature of reinforcement learning is the trade-off between *exploration*, in which the system tries out new kinds of actions to see how effective they are, and *exploitation*, in which the system makes use of actions that are known to yield a high reward. Too strong a focus on either exploration or exploitation will yield poor results.
 
