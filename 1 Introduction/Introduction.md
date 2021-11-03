@@ -81,5 +81,35 @@ In practice we do:
 * Suppose we <u>observe</u> a *real-valued input variable x* and we wish to use this observation to <u>predict</u> the value of a *real-valued target variable t*.
 * The data for this example is generated from the function $sin(2πx)$ with random noise included in the target values.
 
+**What we have:**
 
+A training set comprising N observations of x, written$ x ≡ (x_1, . . . , x_N)^T$, together with corresponding observations of the values of t, denoted $t ≡ (t_1, . . . , t_N)^T$, as shown below. The green curve shows the function $sin(2πx)$ used to generate
+the data. Our goal is to predict the value of t for some new value of x, without knowledge of the green curve.
 
+![image-20211103135637589](../pic/image-20211103135637589.png)
+
+> Why we add a noise?
+>
+> This noise might arise from ==intrinsically stochastic== (i.e. random) processes
+> such as <u>radioactive decay</u> but more typically is due to <u>there being sources of variability that are themselves unobserved</u>.
+
+**Our goal**:
+
+exploit this training set in order to make predictions of the value $\hat{t}$ of the target variable for some new value $\hat{x}$ of the input variable.
+
+**What we need**:
+
+* *Probability theory* provides a framework for expressing such uncertainty in a precise and quantitative manner.
+* *Decision theory* allows us to exploit this probabilistic representation in order to make predictions that are optimal according to appropriate criteria.
+
+**We consider a simple approach**:
+
+In particular, we shall fit the data using <u>a polynomial function of the form</u>:
+$$
+y(x,\textbf{w})=w_0+w_1x+w_2x^2+_\cdots+w_Mx^M=\sum_{j=0}^{M}w_jx^j
+$$
+
+* $\textit{M}$ is the *order* of the polynomial
+* $x^j$ denotes $x$ raised to the power of j
+* $w_0, _\cdots, w_M$  are collectively denoted by the vector $\textbf{w}$
+* Our function is nonlinear to $x$, <u>but linear to  $\textbf{w}$</u>, so it's called *linear model*.
