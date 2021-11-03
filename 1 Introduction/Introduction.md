@@ -76,5 +76,10 @@ In practice we do:
 
 ## 1.1 Example: Polynomial Curve Fitting
 
+**Problem Intro**:
+
+* Suppose we <u>observe</u> a *real-valued input variable x* and we wish to use this observation to <u>predict</u> the value of a *real-valued target variable t*.
+* The data for this example is generated from the function $sin(2πx)$ with random noise included in the target values.
+
 
 
