@@ -12,6 +12,10 @@
 
 ==The field of pattern recognition is concerned with the automatic discovery of regularities in data through the use of computer algorithms and with the use of these regularities to take actions such as classifying the data into different categories.==
 
+***
+
+
+
 ## 2.Recognize handwritten digits
 
 ![image-20211103103006491](../pic/image-20211103102924785.png)
@@ -39,3 +43,23 @@ We get:
 
 * y(x) can then determine the identity of <u>new digit images</u>, which are said to comprise a <u>*test set*</u>
 * ==The ability to categorize correctly new examples that differ from those used for training is known as *generalization*.==
+* Generalization is a ==central goal== in pattern recognition, for the variability of the input vectors will be such that the training data can comprise only a tiny fraction of all possible input vectors.
+
+In practice we do:
+
+* the original input variables are typically *preprocessed* to transform them into some new space of variables where the pattern recognition problem will be easier to solve
+* pre-processing stage is sometimes also called *feature extraction*. Note that new test data must be pre-processed using the same steps as the training data.
+* the images  are typically translated and scaled into <u>a box of a fixed size</u>, reduce the variability
+* pre-processing might also be performed in order to <u>speed up computation</u>
+* care for information  *discarded*,  if this information is important to the solution of the problem then the overall accuracy of the system can suffer.
+
+***
+
+
+
+## 3.Domains of learning
+
+1. ***supervised learning**:* training data comprises examples of the input vectors along with their corresponding target vectors. If the desired output consists of one or more continuous variables, then the task is called ***regression***.
+2. ***unsupervised learning***: training data consists of a set of input vectors x without any corresponding target values. Discovering groups of similar examples within the data is called ***clustering***. Determining the distribution of data within the input space is known as ***density estimation***.Project the data from a high-dimensional space down to two or three dimensions for the purpose of ***visualization***.
+3. 
+
