@@ -2,7 +2,9 @@
 
 [toc]
 
-## 1.History 
+## 1.0 Preface
+
+### 1.0.1.History 
 
 > The problem of searching for patterns in data is a fundamental one and has a long and
 > successful history.
@@ -16,7 +18,7 @@
 
 
 
-## 2.Recognize handwritten digits
+### 1.0.2.Recognize handwritten digits
 
 ![image-20211103103006491](../pic/image-20211103102924785.png)
 
@@ -57,7 +59,7 @@ In practice we do:
 
 
 
-## 3.Domains of learning
+### 1.0.3.Domains of learning
 
 1. ***supervised learning**:* training data comprises examples of the input vectors along with their corresponding target vectors. 
    * If the desired output consists of one or more continuous variables, then the task is called ***regression***.
@@ -67,4 +69,12 @@ In practice we do:
    * Project the data from a high-dimensional space down to two or three dimensions for the purpose of ***visualization***.
 3. ***reinforcement learning***: finding suitable actions to take in a given situation in order to maximize a reward. Learning algorithm is not given examples of optimal outputs, but must instead discover them by a process of trial and error.
    * A general feature of reinforcement learning is the trade-off between *exploration*, in which the system tries out new kinds of actions to see how effective they are, and *exploitation*, in which the system makes use of actions that are known to yield a high reward. Too strong a focus on either exploration or exploitation will yield poor results.
+
+***
+
+
+
+## 1.1 Example: Polynomial Curve Fitting
+
+
 
