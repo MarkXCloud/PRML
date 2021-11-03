@@ -133,7 +133,7 @@ $$
 
 it is a nonnegative quantity that would be zero if, and only if, the function $y(x_n,\textbf{w})$ were to pass exactly through each training data point. As shown of the green bars below.
 
-<img src="../../../../AppData/Roaming/Typora/typora-user-images/image-20211103142941240.png" alt="image-20211103142941240" style="zoom:80%;" />
+<img src="../pic/image-20211103142941240.png" alt="image-20211103142941240" style="zoom:80%;" />
 
 * Since: the error function is <u>a quadratic function</u> of the coefficients $\textbf{w}$
 * we can infer: its ==derivatives== with respect to the coefficients will be <u>linear</u> in the elements of $\textbf{w}$
@@ -148,7 +148,7 @@ it is a nonnegative quantity that would be zero if, and only if, the function $y
 
 This is an important concept called *model comparison* or *model selection*
 
-<img src="../../../../AppData/Roaming/Typora/typora-user-images/image-20211103144018551.png" alt="image-20211103144018551" style="zoom:80%;" />
+<img src="../pic/image-20211103144018551.png" alt="image-20211103144018551" style="zoom:80%;" />
 
 * $\textit{M}=0\ and \ 1$​ polynomials give rather poor fits to the data and consequently rather poor representations of the function $sin(2πx)$.
 * $\textit{M}=3$​ polynomial seems to give the best fit to the function $sin(2πx)$ of the examples.
@@ -168,13 +168,13 @@ $$
 
 Graphs of the root-mean-square error:
 
-<img src="../../../../AppData/Roaming/Typora/typora-user-images/image-20211103150753399.png" alt="image-20211103150753399" style="zoom:80%;" />
+<img src="../pic/image-20211103150753399.png" alt="image-20211103150753399" style="zoom:80%;" />
 
 > We only have 10 data points in the training set so when $\textit{M}=9$ it tuned exactly to them.
 
 **We gain some insight**:
 
-<img src="../../../../AppData/Roaming/Typora/typora-user-images/image-20211103151352930.png" alt="image-20211103151352930" style="zoom:80%;" />
+<img src="../pic/image-20211103151352930.png" alt="image-20211103151352930" style="zoom:80%;" />
 
 $\textit{M}=9$ the coefficients have become finely tuned to the data <u>by developing large positive and negative values</u> so that the corresponding polynomial function matches each of the data points exactly, but between data points (particularly near the ends of the range) the function exhibits the large oscillations observed
 
@@ -184,7 +184,7 @@ $\textit{M}=9$ the coefficients have become finely tuned to the data <u>by devel
 
 For a given model complexity, ==the over-fitting problem become less severe as the size of the data set increases.==
 
-<img src="../../../../AppData/Roaming/Typora/typora-user-images/image-20211103151730838.png" alt="image-20211103151730838" style="zoom:80%;" />
+<img src="../pic/image-20211103151730838.png" alt="image-20211103151730838" style="zoom:80%;" />
 
 ==Another way to say this is that the larger the data set, the more complex (in other words more flexible) the model that we can afford to fit to the data.==
 
@@ -212,14 +212,27 @@ In particular, this quadratic regularizer is called *ridge regression* (Hoerl an
 
 ![image-20211103154037395](../pic/image-20211103154037395.png)
 
-<img src="../../../../AppData/Roaming/Typora/typora-user-images/image-20211103154117029.png" alt="image-20211103154117029" style="zoom:80%;" />
+<img src="../pic/image-20211103154117029.png" alt="image-20211103154117029" style="zoom:80%;" />
 
 ==The graph and the table show that regularization has the desired effect of reducing the magnitude of the coefficients.==
 
 The impact of the regularization term on the generalization error can be seen by
 plotting the value of the RMS error for both training and test sets against $ln λ$
 
-<img src="../../../../AppData/Roaming/Typora/typora-user-images/image-20211103154410833.png" alt="image-20211103154410833" style="zoom:80%;" />
+<img src="../pic/image-20211103154410833.png" alt="image-20211103154410833" style="zoom:80%;" />
 
 >We see that in effect $λ$ now controls the effective complexity of the model and hence determines the degree of over-fitting.
 
+***
+
+## 1.2 Probability Theory
+
+
+
+==A key concept in the field of pattern recognition is that of uncertainty.==
+
+**The Rules of Probability**
+$$
+\textbf{sum\ rule}\ \ p(X)=\sum_Yp(X,Y)\\
+\textbf{product rule}\ \ p(X,Y)=p(Y|X)p(X)
+$$
