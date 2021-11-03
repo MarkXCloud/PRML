@@ -236,3 +236,157 @@ $$
 \textbf{sum\ rule}\ \ p(X)=\sum_Yp(X,Y)\\
 \textbf{product rule}\ \ p(X,Y)=p(Y|X)p(X)
 $$
+*Bayes' theorem*:
+$$
+p(Y|X)=\frac{p(X|Y)p(Y)}{p(X)}
+$$
+Using the sum rule, the denominator in Bayes’ theorem can be expressed in terms of the quantities appearing in the numerator
+$$
+p(X)=\sum_{Y}p(X|Y)p(Y)
+$$
+Finally, we note that if the joint distribution of two variables factorizes into the product of the marginals, so that
+$$
+p(X,Y)=p(X)p(Y)
+$$
+then $X$ and $Y$ are said to be *independent*.
+
+***
+
+
+
+### 1.2.1 Probability densities
+
+The probability that $x$ will lie in an interval $(a,b)$ is then given by
+$$
+p(x\in (a,b))=\int_{a}^{b}p(x)dx
+$$
+Because probabilities are nonnegative, and because the value of $x$ must lie somewhere on the real axis, the probability density $p(x)$ must satisfy the two conditions
+$$
+p(x)\ge0\\
+\int_{-\infty}^\infty p(x)dx=1
+$$
+If we consider a change of variables $x=g(y)$, the a function $f(x)$ becomes $\tilde{f}(y)=f(g(y))$. Note that $p_x(x)\delta x\simeq p_y(y)\delta y$. Then we have the transform below
+$$
+p_y(y)=p_x(x)|\frac{dx}{dy}|\\
+=p_x(g(y))|g^\prime(y)|
+$$
+The probability that $x$ lies in the interval $(-\infty,z)$ is given by the *cumulative distribution function* defined by
+$$
+P(x)=\int_{-\infty}^{z}p(x)dx
+$$
+which satisfies $P^\prime (x)=p(x)$
+
+<img src="../pic/image-20211103162701126.png" alt="image-20211103162701126" style="zoom:80%;" />
+
+If we have several continues variables $x_1,_\cdots,x_D$, denoted collectively by the vector $\textbf{x}$, then we can define a joint probability density $p(\textbf{x})=p(x_1,_\cdots,x_D)$ such that the probability of $\textbf{x}$ falling in an interval volume $\delta\textbf{x}$ containing the point $\textbf{x}$ is given by $p(\textbf{x})\delta\textbf{x}$. This multivariate probability density must satisfy
+$$
+p(\textbf{x})\ge 0\\
+\int p(\textbf{x})=1
+$$
+in which the integral is taken over the whole of $\textbf{x}$ space. We can also consider joint probability distributions over a combination of discrete and continuous variables.
+
+The sum and product rules of probability, as well as Bayes’ theorem, apply equally to the case of probability densities, or to combinations of discrete and continuous
+variables.
+$$
+p(x)=\int p(x,y)dy\\
+p(x,y)=p(y|x)p(x)
+$$
+
+***
+
+
+
+### 1.2.2 Expectations and covariances
+
+One of the most important operations involving probabilities is that of finding <u>weighted averages of functions</u>.
+
+a discrete distribution, it is given by
+$$
+\mathbb{E}[f]=\sum_x p(x)f(x)
+$$
+so that the average is weighted by the relative probabilities of the different values of $x$.
+
+In the case of continuous variables, expectations are expressed in terms of an integration with respect to the corresponding probability density
+$$
+\mathbb{E}[f]=\int p(x)f(x)dx
+$$
+In either case, if we are given a finite number$N$ of points drawn from the probability distribution or probability density, then the expectation can be approximated as a finite sum over these points
+$$
+\mathbb{E}[f]\simeq \frac{1}{N}\sum_{n=1}^{N}f(x_n)
+$$
+The approximation becomes exact in the limit $N\rightarrow \infty$.
+
+Sometimes we will be considering expectations of functions of several variables, in which case we can <u>use a subscript to indicate which variable is being averaged over</u>, so that for instance
+$$
+\mathbb{E}_x[f|y]=\sum_{x}p(x|y)f(x)
+$$
+denotes the average of the function $f(x,y)$ with respect to the distribution of $x$. Note that $\mathbb{E}_x[f(x,y)]$ will be a function of $y$.
+
+We can also consider a *conditional expectation* with respect to a conditional distribution, so that
+$$
+\mathbb{E}_x[f|y]=\sum_xp(x|y)f(x)
+$$
+with an analogous definition for continuous variables.
+
+The *variance* of $f(x)$ is defined by
+$$
+var[f]=\mathbb{E}[(f(x)-\mathbb{E}[f(x)])^2]
+$$
+and provides a measure of how much variability there is in $f(x)$ around its mean value $\mathbb{E}[f(x)]$.
+
+Expanding out the square, we see that the variance can also be written in terms of the expectations of $f(x)$ and $f(x)^2$
+$$
+var[f]=\mathbb{E}[f(x)^2]-\mathbb{E}[f(x)]^2
+$$
+For two random variables $x$ and $y$, the *covariance* is defined by
+$$
+cov[x,y]=\mathbb{E}_{x,y}[\{x-\mathbb{E}[x]\}\{y-\mathbb{E}[y]\}]
+\\
+=\mathbb{E}_{x,y}[xy]-\mathbb{E}[x]\mathbb{E}[y]
+$$
+If x and y are independent, then their covariance vanishes.
+
+In the case of two vectors of random variables $\textbf{x}$ and $\textbf{y}$, the covariance is a matrix
+$$
+cov[\textbf{x},\textbf{y}]=\mathbb{E}_{\textbf{x},\textbf{y}}[\{\textbf{x}-\mathbb{E}[\textbf{x}]\}\{\textbf{y}^T-\mathbb{E}[\textbf{y}^T]\}]\\
+=\mathbb{E}_{\textbf{x},\textbf{y}}[{\textbf{x}\textbf{y}^T}]-\mathbb{E}[\textbf{x}]\mathbb{E}[\textbf{y}^T]
+$$
+
+***
+
+
+
+### 1.2.3 Bayesian probabilities
+
+> Now we turn to the more general *Bayesian* view, in which probabilities provide a quantification of uncertainty.
+
+Some events that <u>cannot be repeated numerous times</u> in order to define a notion of probability . We would like to be able to quantify our expression of uncertainty and make precise revisions of uncertainty in the light of new evidence, as well as subsequently to be able to take optimal actions or decisions as a consequence.
+
+>Cox (1946) showed that if numerical values are used to represent degrees of belief, then a simple set of axioms encoding common sense properties of such beliefs leads uniquely to a set of rules for manipulating degrees of belief that are equivalent to the sum and product rules of probability. This provided the first rigorous proof that probability theory could be regarded as an extension of Boolean logic to situations involving uncertainty (Jaynes, 2003).
+
+In my word: probability theory can be regarded as an extention of Boolean logic in uncertainty situation.
+
+Now, let us use the machinery of probability theory to describe the uncertainty in model parameters such as $\textbf{w}$ from a Bayesian perspective.
+
+We capture our assumptions about $\textbf{w}$, before observing the data, in the form of a prior probability distribution $p(\textbf{w})$. The effect of the observed data $D = \{t_1, . . . , t_N\} $ is expressed through the conditional probability $p(D|\textbf{w})$
+
+Bayes's theorem, which takes the form
+$$
+p(\textbf{w}|D)=\frac{p(D|\textbf{w})p(\textbf{w})}{p(D)}
+$$
+then allows us to evaluate the uncertainty in $\textbf{w}$ after we have observed $D$ in the form of the posterior probability $p(\textbf{w}|D)$.
+
+The quantity $p(D|\textbf{w})$ on the right-hand side of Bayes’ theorem is evaluated for the observed data set D and can be viewed as a function of the parameter vector $\textbf{w}$, in which case it is called the *likelihood function*. It expresses how probable the observed data set is, for different settings of the parameter vector $\textbf{w}$.
+
+Given this definition of likelihood, we can state Bayes’ theorem in words
+$$
+posterior \propto likelihood \times prior
+$$
+where all of these quantities are viewed as functions of $\textbf{w}$.
+
+* In a frequentist setting, $\textbf{w}$ is considered to be a <u>fixed parameter</u>, whose value is determined by some form of ‘estimator’, and error bars on this estimate are obtained by considering the distribution of possible data sets $D$.
+  * One approach to determining frequentist error bars is the *bootstrap*. Briefly, our original data set consists of $N$ data points $X=\{x_1,_\cdots,x_N\}$. We can create a new dataset $X_B$ by drawing $N$ points at random from $X$. This process can be repeated $L$ times to generate $L$ data sets each of size $N$ and each obtained by sampling from the original data set $X$​.The statistical accuracy of parameter estimates can then be evaluated by looking at the variability of predictions between the different bootstrap data sets.
+* By contrast, from the Bayesian viewpoint there is only a single data set $D$ (namely the one that is actually observed), and the <u>uncertainty in the parameters is expressed through a probability distribution over $\textbf{w}$</u>.
+  * One advantage of the Bayesian viewpoint is that the inclusion of prior knowledge arises naturally.
+
+### 1.2.4 The Gaussian distribution
