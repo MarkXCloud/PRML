@@ -432,7 +432,7 @@ The maximum of a distribution is known as its **mode**. For a Gaussian, the mode
 
 The Gaussian distribution defined over a $D$-dimensional vector $\textbf{x}$ of continuous variables is given by
 $$
-N(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\mu)^T\Sigma^{-1}(\textbf{x}-\mu)\}}
+N(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\mu)^\textup{T}\Sigma^{-1}(\textbf{x}-\mu)\}}
 $$
 
 * The $D$-dimensional vector $\mu$ is  called the mean
@@ -529,8 +529,22 @@ p(t|x,\textbf{w}_{ML},\beta_{ML})=N(t|y(x,\textbf{w}_{ML}),\beta_{ML}^{-1})
 $$
 Now let us take a step towards a more Bayesian approach and introduce a prior distribution over the polynomial coefficients $\textbf{w}$. For simplicity, let us consider a Gaussian distribution of the form
 $$
-p(\textbf{w}|\alpha)=N(\textbf{w}|\textbf{0},\alpha^{-1}\textbf{I})=(\frac{\alpha}{2\pi})^{(M+1)/2}\exp{\{-\frac{\alpha}{2}\textbf{w}^T\textbf{w}\}}
+p(\textbf{w}|\alpha)=N(\textbf{w}|\textbf{0},\alpha^{-1}\textbf{I})=(\frac{\alpha}{2\pi})^{(M+1)/2}\exp{\{-\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}\}}
 $$
 
 * $\alpha$ is the precision of the distribution.
 * $M+1$ is the total number of the elements in the vector $\textbf{w}$ for an $M^{th}$ order polynomial.
+* Variables such as $\alpha$, which control the distribution of the model parameters, are called *hyperparameters*.
+
+Using Bayes' theorem, the posterior distribution for $\textbf{w}$ is proportional to the product of the prior distribution and the likelihood function
+$$
+p(\textup{w}|\textbf{x,t},\alpha,\beta)\propto p(\textbf{t|x},\textup{w},\beta)p(\textup{w}|\alpha)
+$$
+we can now determine the $\textup{w}$ by finding the most probable value of $\textup{w}$ given the data, in other words by maximizing the posterior distribution. This technique is called *maximum posterior*, or simply *MAP*. Taking the negative logarithm of the posterior and combine with the expression of prior and likelihood, we find that the maximum of the posterior is given by the minimum of
+$$
+\frac{\beta}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2+\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}
+$$
+
+
+Thus we see that maximizing the posterior distribution is equivalent to minimizing the regularized sum-of-squares error function encountered earlier in the form of polynomial episode, with a regularization parameter given by $\lambda=\alpha/\beta$.
+
