@@ -430,8 +430,39 @@ var[x]=\mathbb{E}[x^2]-\mathbb{E}[x]^2=\sigma^2
 $$
 The maximum of a distribution is known as its **mode**. For a Gaussian, the mode coincides with the mean, for it is the highest point of the curve and have the most probability.
 
-The Gaussian distribution defined over a D-dimensional vector $\textbf{x}$ of continuous variables is given by
+The Gaussian distribution defined over a $D$-dimensional vector $\textbf{x}$ of continuous variables is given by
 $$
 N(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\mu)^T\Sigma^{-1}(\textbf{x}-\mu)\}}
 $$
- 
+
+* The $D$-dimensional vector $\mu$ is  called the mean
+* The $D\times D$ matrix $\Sigma$ is called the covariance
+* The $|\Sigma|$ denotes the determinant of $\Sigma$.
+
+***
+
+
+
+Now suppose that we have a dataset of observations $\textbf{x}=(x_1,_\cdots,x_N)^T$,representing $N$ observations of scalar variable $x$. And our dataset  $\textbf{x}$ is i.i.d., we can write the probability of the dataset, given $\mu$ and $\sigma^2$, in the form
+$$
+p(\textbf{x}|\mu,\sigma^2)=\prod_{n=1}^{N}N(x_n|\mu,\sigma^2)
+$$
+When viewed as a function of $\mu$ and $\sigma^2$, this is the likelihood function for theGaussian and is interpreted diagrammatically in the Figure below
+
+<img src="../pic/image-20211110112054953.png" alt="image-20211110112054953" style="zoom:80%;" />
+
+The log likelihood function can be written in the form
+$$
+\ln{p}(\textbf{x}|\mu,\sigma^2)=-\frac{1}{2\sigma^2}\sum_{n=1}^{N}(x_n-\mu)^2-\frac{N}{2}\ln\sigma^2-\frac{N}{2}\ln(2\pi)
+$$
+Maximizing with respect to $\mu$, we obtain the maximum likelihood solution given by
+$$
+\mu_{ML}=\frac{1}{N}\sum_{n=1}^{N}x_n
+$$
+which is the *sample mean*, i.e., the mean of the observed values $\{x_n\}$.
+
+Similarly, maximizing with respect to $\sigma^2$, we obtain the maximum likelihood solution for the variance in the form
+$$
+\sigma_{ML}^2=\frac{1}{N}\sum_{n=1}^{N}(x_n-\mu_{ML})^2
+$$
+which is the *sample variance* measured with respect to the sample mean $\mu_{ML}$.
