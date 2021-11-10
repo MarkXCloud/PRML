@@ -390,3 +390,48 @@ where all of these quantities are viewed as functions of $\textbf{w}$.
   * One advantage of the Bayesian viewpoint is that the inclusion of prior knowledge arises naturally.
 
 ### 1.2.4 The Gaussian distribution
+
+One of the most important probability distributions for continues variables: *normal* or *Gaussian* distribution.
+
+For the case of a single real-valued variable $x$, the Gaussian distribution is defined
+by
+$$
+N(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{\frac{1}{2}}}\exp{\{-\frac{1}{2\sigma^2}(x-\mu)^2\}}
+$$
+
+* $\mu$ is called the *mean*
+* $\sigma^2$ is called the *variance*
+* $\sigma$ is called the *standard deviation*
+* $\beta=1/\sigma^2$ is called the *precision*
+
+<img src="../pic/image-20211110105115553.png" alt="image-20211110105115553" style="zoom:80%;" />
+
+We can see that the Gaussian distribution satisfied:
+$$
+N(x|\mu,\sigma^2)>0
+$$
+also:
+$$
+\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)dx=1
+$$
+Thus the PDF satisfies the two requirements for a valid probability density.
+
+We can readily find expectations of functions of x under the Gaussian distribution. In particular, the average value of $x$ is given by
+$$
+\mathbb{E}[x]=\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)xdx=\mu
+$$
+Similarly, for the second order moment
+$$
+\mathbb{E}[x^2]=\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)x^2dx=\mu^2+\sigma^2
+$$
+The variance of $x$ is given by
+$$
+var[x]=\mathbb{E}[x^2]-\mathbb{E}[x]^2=\sigma^2
+$$
+The maximum of a distribution is known as its **mode**. For a Gaussian, the mode coincides with the mean, for it is the highest point of the curve and have the most probability.
+
+The Gaussian distribution defined over a D-dimensional vector $\textbf{x}$ of continuous variables is given by
+$$
+N(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\mu)^T\Sigma^{-1}(\textbf{x}-\mu)\}}
+$$
+ 
