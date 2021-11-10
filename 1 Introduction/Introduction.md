@@ -466,3 +466,71 @@ $$
 \sigma_{ML}^2=\frac{1}{N}\sum_{n=1}^{N}(x_n-\mu_{ML})^2
 $$
 which is the *sample variance* measured with respect to the sample mean $\mu_{ML}$.
+
+An example of a phenomenon called *bias* and is related to the problem of over-fitting encountered in the text of polynomial curve fitting. We first note that the maximum likelihood solutions $μ_{ML}$ and $σ^2_{ML}$ are functions of the data set values $x_1, . . . , x_N$. Consider the expectations of these quantities with respect to the data set values, which themselves come from a Gaussian distribution with parameters $μ$ and $σ_2$. It is straightforward to show that
+$$
+\mathbb{E}[\mu_{ML}]=\mu\\
+\mathbb{E}[σ^2_{ML}]=(\frac{N-1}{N})\sigma^2
+$$
+so that on average the maximum likelihood estimate will obtain the correct mean but will underestimate the true variance by a factor $(N-1)/N$. The intuition behind this result is given by Figure below
+
+<img src="../pic/image-20211110150411418.png" alt="image-20211110150411418" style="zoom:80%;" />
+
+The varience parameter unbiased:
+$$
+\tilde{\sigma}^2=\frac{N}{N-1}\sigma_{ML}^2=\frac{1}{N-1}\sum_{n=1}^{N}(x_n-\mu_{ML})^2
+$$
+Note that the bias of the maximum likelihood solution becomes less significant as the number N of data points increases, and in the limit $N → ∞$the maximum likelihood solution for the variance equals the true variance of the distribution that generated the data.
+
+***
+
+
+
+### 1.2.5 Curving fitting re-visited
+
+Here we return to the curve fitting example and view it from a probabilistic perspective, thereby gaining some insights into error functions and regularization, as well as taking us towards a full Bayesian treatment.
+
+**Our goal:**
+
+* The goal in the curve fitting problem is to be able to make predictions for the target variable $t$ given some new value of the input variable $x$ on the basis of a set of training data comprising $N$ input values $x = (x_1, . . . , x_N)^T$ and their corresponding target values $t = (t_1, . . . , t_N)^T$.
+
+**We make an assumption:**
+
+Given the value of $x$, the corresponding value of $t$ has a Gaussian distribution with a mean equal to the value $y(x,\textbf{w})$ of the polynomial curve. Thus we have
+$$
+p(t|x,\textbf{w},\beta)=N(t|y(x,\textbf{w}),\beta^{-1})
+$$
+
+* We have defined a precision parameter $\beta$ corresponding to the inverse varience of the distribution.
+
+<img src="../pic/image-20211110151753931.png" alt="image-20211110151753931" style="zoom:80%;" />
+
+We now use the training data $\{\textbf{x,t}\}$ to determine the values of the unknown parameters $\textbf{w}$ and $\beta$ by maximum likelihood. If the data are assumed to be drawn independently from the distribution just above, then the likelihood functions is given by
+$$
+p(\textbf{t}|\textbf{x},\textbf{w},\beta)=\prod_{n=1}^{N}N(t_n|y(x_n,\textbf{w}),\beta^{-1})
+$$
+As we did before, it is convenient to maximize the logarithm of the likelihood function. We obtain the log likelihood function in the form
+$$
+\ln{p(\textbf{t}|\textbf{x},\textbf{w},\beta)}=-\frac{\beta}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2+\frac{N}{2}\ln{\beta}-\frac{N}{2}\ln{(2\pi)}
+$$
+**Initially:**
+
+1. We consider the $\textbf{w}_{ML}$. Since the last two terms on the right-hand side do not depend on $\textbf{w}$,  we omit them. 
+2. Also, scaling factor does not effects the maximum procedure, so we replace the coefficient $\beta/2$ with $1/2$.
+3. Finally, we transfer the maximizing on log into minimizing the negative log, which leads to minimizing the *sum-of-squares-error*. Thus the sum-of-squares error function has arisen as a consequence of maximizing likelihood under the assumption of a Gaussian noise distribution.
+
+We can also use maximum likelihood to determine the precision parameter $\beta$ of the Gaussian conditional distribution. Maximizing with respect to $\beta$ gives
+$$
+\frac{1}{\beta_{ML}}=\frac{1}{N}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2
+$$
+Having determined the parameters $\textbf{w}$ and $β$, we can now make predictions for new values of $x$. Because we now have a probabilistic model, these are expressed in terms of the predictive distribution that gives the probability distribution over t, rather than simply a point estimate, and is obtained by substituting the maximum likelihood parameters to give
+$$
+p(t|x,\textbf{w}_{ML},\beta_{ML})=N(t|y(x,\textbf{w}_{ML}),\beta_{ML}^{-1})
+$$
+Now let us take a step towards a more Bayesian approach and introduce a prior distribution over the polynomial coefficients $\textbf{w}$. For simplicity, let us consider a Gaussian distribution of the form
+$$
+p(\textbf{w}|\alpha)=N(\textbf{w}|\textbf{0},\alpha^{-1}\textbf{I})=(\frac{\alpha}{2\pi})^{(M+1)/2}\exp{\{-\frac{\alpha}{2}\textbf{w}^T\textbf{w}\}}
+$$
+
+* $\alpha$ is the precision of the distribution.
+* $M+1$ is the total number of the elements in the vector $\textbf{w}$ for an $M^{th}$ order polynomial.
