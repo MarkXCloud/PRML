@@ -4,7 +4,7 @@
 
 ## 1.0 Preface
 
-### 1.0.1.History 
+### 1.0.1 History 
 
 > The problem of searching for patterns in data is a fundamental one and has a long and
 > successful history.
@@ -18,7 +18,7 @@
 
 
 
-### 1.0.2.Recognize handwritten digits
+### 1.0.2 Recognize handwritten digits
 
 <img src="../pic/image-20211103102924785.png" alt="image-20211103103006491" style="zoom:80%;" />
 
@@ -59,7 +59,7 @@ In practice we do:
 
 
 
-### 1.0.3.Domains of learning
+### 1.0.3 Domains of learning
 
 1. ***supervised learning**:* training data comprises examples of the input vectors along with their corresponding target vectors. 
    * If the desired output consists of one or more continuous variables, then the task is called ***regression***.
