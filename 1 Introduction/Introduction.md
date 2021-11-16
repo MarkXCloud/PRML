@@ -110,7 +110,7 @@ exploit this training set in order to make predictions of the value $\hat{t}$ of
 
 In particular, we shall fit the data using <u>a polynomial function of the form</u>:
 $$
-y(x,\textbf{w})=w_0+w_1x+w_2x^2+_\cdots+w_Mx^M=\sum_{j=0}^{M}w_jx^j
+y(x,\textbf{w})=w_0+w_1x+w_2x^2+_\cdots+w_Mx^M=\sum_{j=0}^{M}w_jx^j\tag{1.1}
 $$
 
 * $\textit{M}$ is the *order* of the polynomial
@@ -126,7 +126,7 @@ By minimizing an *error function* that measures the misfit between the function 
 
 One simple choice of error function, which is widely used, is given by the sum of the squares of the errors between the predictions $y(x_n,\textbf{w})$ for each data point $x_n$ and the corresponding target values $t_n$, so that we minimize
 $$
-E(\textbf{w})=\frac{1}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2
+E(\textbf{w})=\frac{1}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2\tag{1.2}
 $$
 
 > the factor 1/2 isincluded for later convenience
@@ -160,7 +160,7 @@ Considering a separate test set comprising <u>100 data points</u> generated <u>u
 
 We use root-mean-square (RMS) error defined by
 $$
-E_{RMS}=\sqrt{2E(\textbf{w}^\star)/N}
+E_{RMS}=\sqrt{2E(\textbf{w}^\star)/N}\tag{1.3}
 $$
 
 * $\textit{N}$​ allows us to compare different sizes of data sets on an equal footing
@@ -200,7 +200,7 @@ For a given model complexity, ==the over-fitting problem become less severe as t
 
 Adding a <u>penalty term</u> to the error function in order to discourage the coefficients from reaching large values, leading to a modified error function of the form
 $$
-\tilde{E}(\textbf{w})=\frac{1}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2+\frac{\lambda}{2}||\textbf{w}||^2
+\tilde{E}(\textbf{w})=\frac{1}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2+\frac{\lambda}{2}||\textbf{w}||^2\tag{1.4}
 $$
 
 * $||\textbf{w}||^2\equiv \textbf{w}^T\textbf{w}=w_0^2+w_1^2+_\cdots+w_M^2$
@@ -233,20 +233,22 @@ plotting the value of the RMS error for both training and test sets against $ln 
 
 **The Rules of Probability**
 $$
-\textbf{sum\ rule}\ \ p(X)=\sum_Yp(X,Y)\\
-\textbf{product rule}\ \ p(X,Y)=p(Y|X)p(X)
+\begin{align}
+	\textbf{sum\ rule}\ \ p(X)&=\sum_Yp(X,Y)\tag{1.10}\\
+	\textbf{product rule}\ \ p(X,Y)&=p(Y|X)p(X)\tag{1.11}
+\end{align}
 $$
 *Bayes' theorem*:
 $$
-p(Y|X)=\frac{p(X|Y)p(Y)}{p(X)}
+p(Y|X)=\frac{p(X|Y)p(Y)}{p(X)}\tag{1.12}
 $$
 Using the sum rule, the denominator in Bayes’ theorem can be expressed in terms of the quantities appearing in the numerator
 $$
-p(X)=\sum_{Y}p(X|Y)p(Y)
+p(X)=\sum_{Y}p(X|Y)p(Y)\tag{1.13}
 $$
 Finally, we note that if the joint distribution of two variables factorizes into the product of the marginals, so that
 $$
-p(X,Y)=p(X)p(Y)
+p(X,Y)=p(X)p(Y)\tag{1.14}
 $$
 then $X$ and $Y$ are said to be *independent*.
 
@@ -258,21 +260,25 @@ then $X$ and $Y$ are said to be *independent*.
 
 The probability that $x$ will lie in an interval $(a,b)$ is then given by
 $$
-p(x\in (a,b))=\int_{a}^{b}p(x)dx
+p(x\in (a,b))=\int_{a}^{b}p(x)\textrm{d}x\tag{1.24}
 $$
 Because probabilities are nonnegative, and because the value of $x$ must lie somewhere on the real axis, the probability density $p(x)$ must satisfy the two conditions
 $$
-p(x)\ge0\\
-\int_{-\infty}^\infty p(x)dx=1
+\begin{align}
+	p(x)&\ge0\tag{1.25}\\
+	\int_{-\infty}^\infty p(x)dx&=1\tag{1.26}
+\end{align}
 $$
 If we consider a change of variables $x=g(y)$, the a function $f(x)$ becomes $\tilde{f}(y)=f(g(y))$. Note that $p_x(x)\delta x\simeq p_y(y)\delta y$. Then we have the transform below
 $$
-p_y(y)=p_x(x)|\frac{dx}{dy}|\\
-=p_x(g(y))|g^\prime(y)|
+\begin{align}
+	p_y(y)&=p_x(x)|\frac{dx}{dy}|\\
+	&=p_x(g(y))|g^\prime(y)|\tag{1.27}
+\end{align}
 $$
 The probability that $x$ lies in the interval $(-\infty,z)$ is given by the *cumulative distribution function* defined by
 $$
-P(x)=\int_{-\infty}^{z}p(x)dx
+P(x)=\int_{-\infty}^{z}p(x)dx\tag{1.28}
 $$
 which satisfies $P^\prime (x)=p(x)$
 
@@ -280,16 +286,20 @@ which satisfies $P^\prime (x)=p(x)$
 
 If we have several continues variables $x_1,_\cdots,x_D$, denoted collectively by the vector $\textbf{x}$, then we can define a joint probability density $p(\textbf{x})=p(x_1,_\cdots,x_D)$ such that the probability of $\textbf{x}$ falling in an interval volume $\delta\textbf{x}$ containing the point $\textbf{x}$ is given by $p(\textbf{x})\delta\textbf{x}$. This multivariate probability density must satisfy
 $$
-p(\textbf{x})\ge 0\\
-\int p(\textbf{x})=1
+\begin{align}
+	p(\textbf{x})&\ge 0\tag{1.29}\\
+	\int p(\textbf{x})&=1\tag{1.29}
+\end{align}
 $$
 in which the integral is taken over the whole of $\textbf{x}$ space. We can also consider joint probability distributions over a combination of discrete and continuous variables.
 
 The sum and product rules of probability, as well as Bayes’ theorem, apply equally to the case of probability densities, or to combinations of discrete and continuous
 variables.
 $$
-p(x)=\int p(x,y)dy\\
-p(x,y)=p(y|x)p(x)
+\begin{align}
+	p(x)&=\int p(x,y)dy\tag{1.31}\\
+	p(x,y)&=p(y|x)p(x)\tag{1.32}
+\end{align}
 $$
 
 ***
@@ -302,54 +312,58 @@ One of the most important operations involving probabilities is that of finding 
 
 a discrete distribution, it is given by
 $$
-\mathbb{E}[f]=\sum_x p(x)f(x)
+\mathbb{E}[f]=\sum_x p(x)f(x)\tag{1.33}
 $$
 so that the average is weighted by the relative probabilities of the different values of $x$.
 
 In the case of continuous variables, expectations are expressed in terms of an integration with respect to the corresponding probability density
 $$
-\mathbb{E}[f]=\int p(x)f(x)dx
+\mathbb{E}[f]=\int p(x)f(x)dx\tag{1.34}
 $$
 In either case, if we are given a finite number$N$ of points drawn from the probability distribution or probability density, then the expectation can be approximated as a finite sum over these points
 $$
-\mathbb{E}[f]\simeq \frac{1}{N}\sum_{n=1}^{N}f(x_n)
+\mathbb{E}[f]\simeq \frac{1}{N}\sum_{n=1}^{N}f(x_n)\tag{1.35}
 $$
 The approximation becomes exact in the limit $N\rightarrow \infty$.
 
 Sometimes we will be considering expectations of functions of several variables, in which case we can <u>use a subscript to indicate which variable is being averaged over</u>, so that for instance
 $$
-\mathbb{E}_x[f|y]=\sum_{x}p(x|y)f(x)
+\mathbb{E}_x[f|y]\tag{1.36}
 $$
 denotes the average of the function $f(x,y)$ with respect to the distribution of $x$. Note that $\mathbb{E}_x[f(x,y)]$ will be a function of $y$.
 
 We can also consider a *conditional expectation* with respect to a conditional distribution, so that
 $$
-\mathbb{E}_x[f|y]=\sum_xp(x|y)f(x)
+\mathbb{E}_x[f|y]=\sum_xp(x|y)f(x)\tag{1.37}
 $$
 with an analogous definition for continuous variables.
 
 The *variance* of $f(x)$ is defined by
 $$
-var[f]=\mathbb{E}[(f(x)-\mathbb{E}[f(x)])^2]
+var[f]=\mathbb{E}[(f(x)-\mathbb{E}[f(x)])^2]\tag{1.38}
 $$
 and provides a measure of how much variability there is in $f(x)$ around its mean value $\mathbb{E}[f(x)]$.
 
 Expanding out the square, we see that the variance can also be written in terms of the expectations of $f(x)$ and $f(x)^2$
 $$
-var[f]=\mathbb{E}[f(x)^2]-\mathbb{E}[f(x)]^2
+var[f]=\mathbb{E}[f(x)^2]-\mathbb{E}[f(x)]^2\tag{1.39}
 $$
 For two random variables $x$ and $y$, the *covariance* is defined by
 $$
-cov[x,y]=\mathbb{E}_{x,y}[\{x-\mathbb{E}[x]\}\{y-\mathbb{E}[y]\}]
+\begin{align}
+cov[x,y]&=\mathbb{E}_{x,y}[\{x-\mathbb{E}[x]\}\{y-\mathbb{E}[y]\}]
 \\
-=\mathbb{E}_{x,y}[xy]-\mathbb{E}[x]\mathbb{E}[y]
+&=\mathbb{E}_{x,y}[xy]-\mathbb{E}[x]\mathbb{E}[y]\tag{1.41}
+\end{align}
 $$
 If x and y are independent, then their covariance vanishes.
 
 In the case of two vectors of random variables $\textbf{x}$ and $\textbf{y}$, the covariance is a matrix
 $$
-cov[\textbf{x},\textbf{y}]=\mathbb{E}_{\textbf{x},\textbf{y}}[\{\textbf{x}-\mathbb{E}[\textbf{x}]\}\{\textbf{y}^T-\mathbb{E}[\textbf{y}^T]\}]\\
-=\mathbb{E}_{\textbf{x},\textbf{y}}[{\textbf{x}\textbf{y}^T}]-\mathbb{E}[\textbf{x}]\mathbb{E}[\textbf{y}^T]
+\begin{align}
+	cov[\textbf{x},\textbf{y}]&=\mathbb{E}_{\textbf{x},\textbf{y}}[\{\textbf{x}-\mathbb{E}[\textbf{x}]\}\{\textbf{y}^T-\mathbb{E}[\textbf{y}^T]\}]\\
+	&=\mathbb{E}_{\textbf{x},\textbf{y}}[{\textbf{x}\textbf{y}^T}]-\mathbb{E}[\textbf{x}]\mathbb{E}[\textbf{y}^T]\tag{1.42}
+\end{align}
 $$
 
 ***
@@ -370,9 +384,9 @@ Now, let us use the machinery of probability theory to describe the uncertainty 
 
 We capture our assumptions about $\textbf{w}$, before observing the data, in the form of a prior probability distribution $p(\textbf{w})$. The effect of the observed data $D = \{t_1, . . . , t_N\} $ is expressed through the conditional probability $p(D|\textbf{w})$
 
-Bayes's theorem, which takes the form
+Bayes' theorem, which takes the form
 $$
-p(\textbf{w}|D)=\frac{p(D|\textbf{w})p(\textbf{w})}{p(D)}
+p(\textbf{w}|D)=\frac{p(D|\textbf{w})p(\textbf{w})}{p(D)}\tag{1.43}
 $$
 then allows us to evaluate the uncertainty in $\textbf{w}$ after we have observed $D$ in the form of the posterior probability $p(\textbf{w}|D)$.
 
@@ -380,7 +394,7 @@ The quantity $p(D|\textbf{w})$ on the right-hand side of Bayes’ theorem is eva
 
 Given this definition of likelihood, we can state Bayes’ theorem in words
 $$
-posterior \propto likelihood \times prior
+\textrm{posterior} \propto \textrm{likelihood} \times \textrm{prior}\tag{1.44}
 $$
 where all of these quantities are viewed as functions of $\textbf{w}$.
 
@@ -396,7 +410,7 @@ One of the most important probability distributions for continues variables: *no
 For the case of a single real-valued variable $x$, the Gaussian distribution is defined
 by
 $$
-N(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{\frac{1}{2}}}\exp{\{-\frac{1}{2\sigma^2}(x-\mu)^2\}}
+N(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{\frac{1}{2}}}\exp{\{-\frac{1}{2\sigma^2}(x-\mu)^2\}}\tag{1.46}
 $$
 
 * $\mu$ is called the *mean*
@@ -408,31 +422,31 @@ $$
 
 We can see that the Gaussian distribution satisfied:
 $$
-N(x|\mu,\sigma^2)>0
+N(x|\mu,\sigma^2)>0\tag{1.47}
 $$
 also:
 $$
-\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)dx=1
+\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)\textrm{d}x=1\tag{1.48}
 $$
 Thus the PDF satisfies the two requirements for a valid probability density.
 
 We can readily find expectations of functions of x under the Gaussian distribution. In particular, the average value of $x$ is given by
 $$
-\mathbb{E}[x]=\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)xdx=\mu
+\mathbb{E}[x]=\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)xdx=\mu\tag{1.49}
 $$
 Similarly, for the second order moment
 $$
-\mathbb{E}[x^2]=\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)x^2dx=\mu^2+\sigma^2
+\mathbb{E}[x^2]=\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)x^2dx=\mu^2+\sigma^2\tag{1.50}
 $$
 The variance of $x$ is given by
 $$
-var[x]=\mathbb{E}[x^2]-\mathbb{E}[x]^2=\sigma^2
+var[x]=\mathbb{E}[x^2]-\mathbb{E}[x]^2=\sigma^2\tag{1.51}
 $$
 The maximum of a distribution is known as its **mode**. For a Gaussian, the mode coincides with the mean, for it is the highest point of the curve and have the most probability.
 
 The Gaussian distribution defined over a $D$-dimensional vector $\textbf{x}$ of continuous variables is given by
 $$
-N(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\mu)^\textup{T}\Sigma^{-1}(\textbf{x}-\mu)\}}
+N(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\mu)^\textup{T}\Sigma^{-1}(\textbf{x}-\mu)\}}\tag{1.52}
 $$
 
 * The $D$-dimensional vector $\mu$ is  called the mean
@@ -445,7 +459,7 @@ $$
 
 Now suppose that we have a dataset of observations $\textbf{x}=(x_1,_\cdots,x_N)^T$,representing $N$ observations of scalar variable $x$. And our dataset  $\textbf{x}$ is i.i.d., we can write the probability of the dataset, given $\mu$ and $\sigma^2$, in the form
 $$
-p(\textbf{x}|\mu,\sigma^2)=\prod_{n=1}^{N}N(x_n|\mu,\sigma^2)
+p(\textbf{x}|\mu,\sigma^2)=\prod_{n=1}^{N}N(x_n|\mu,\sigma^2)\tag{1.53}
 $$
 When viewed as a function of $\mu$ and $\sigma^2$, this is the likelihood function for theGaussian and is interpreted diagrammatically in the Figure below
 
@@ -453,24 +467,26 @@ When viewed as a function of $\mu$ and $\sigma^2$, this is the likelihood functi
 
 The log likelihood function can be written in the form
 $$
-\ln{p}(\textbf{x}|\mu,\sigma^2)=-\frac{1}{2\sigma^2}\sum_{n=1}^{N}(x_n-\mu)^2-\frac{N}{2}\ln\sigma^2-\frac{N}{2}\ln(2\pi)
+\ln{p}(\textbf{x}|\mu,\sigma^2)=-\frac{1}{2\sigma^2}\sum_{n=1}^{N}(x_n-\mu)^2-\frac{N}{2}\ln\sigma^2-\frac{N}{2}\ln(2\pi)\tag{1.54}
 $$
 Maximizing with respect to $\mu$, we obtain the maximum likelihood solution given by
 $$
-\mu_{ML}=\frac{1}{N}\sum_{n=1}^{N}x_n
+\mu_{ML}=\frac{1}{N}\sum_{n=1}^{N}x_n\tag{1.55}
 $$
 which is the *sample mean*, i.e., the mean of the observed values $\{x_n\}$.
 
 Similarly, maximizing with respect to $\sigma^2$, we obtain the maximum likelihood solution for the variance in the form
 $$
-\sigma_{ML}^2=\frac{1}{N}\sum_{n=1}^{N}(x_n-\mu_{ML})^2
+\sigma_{ML}^2=\frac{1}{N}\sum_{n=1}^{N}(x_n-\mu_{ML})^2\tag{1.56}
 $$
 which is the *sample variance* measured with respect to the sample mean $\mu_{ML}$.
 
 An example of a phenomenon called *bias* and is related to the problem of over-fitting encountered in the text of polynomial curve fitting. We first note that the maximum likelihood solutions $μ_{ML}$ and $σ^2_{ML}$ are functions of the data set values $x_1, . . . , x_N$. Consider the expectations of these quantities with respect to the data set values, which themselves come from a Gaussian distribution with parameters $μ$ and $σ_2$. It is straightforward to show that
 $$
-\mathbb{E}[\mu_{ML}]=\mu\\
-\mathbb{E}[σ^2_{ML}]=(\frac{N-1}{N})\sigma^2
+\begin{align}
+	\mathbb{E}[\mu_{ML}] &=\mu\tag{1.57}\\
+	\mathbb{E}[σ^2_{ML}] &=(\frac{N-1}{N})\sigma^2\tag{1.58}
+\end{align}
 $$
 so that on average the maximum likelihood estimate will obtain the correct mean but will underestimate the true variance by a factor $(N-1)/N$. The intuition behind this result is given by Figure below
 
@@ -478,7 +494,7 @@ so that on average the maximum likelihood estimate will obtain the correct mean 
 
 The varience parameter unbiased:
 $$
-\tilde{\sigma}^2=\frac{N}{N-1}\sigma_{ML}^2=\frac{1}{N-1}\sum_{n=1}^{N}(x_n-\mu_{ML})^2
+\tilde{\sigma}^2=\frac{N}{N-1}\sigma_{ML}^2=\frac{1}{N-1}\sum_{n=1}^{N}(x_n-\mu_{ML})^2\tag{1.59}
 $$
 Note that the bias of the maximum likelihood solution becomes less significant as the number N of data points increases, and in the limit $N → ∞$the maximum likelihood solution for the variance equals the true variance of the distribution that generated the data.
 
@@ -498,7 +514,7 @@ Here we return to the curve fitting example and view it from a probabilistic per
 
 Given the value of $x$, the corresponding value of $t$ has a Gaussian distribution with a mean equal to the value $y(x,\textbf{w})$ of the polynomial curve. Thus we have
 $$
-p(t|x,\textbf{w},\beta)=N(t|y(x,\textbf{w}),\beta^{-1})
+p(t|x,\textbf{w},\beta)=N(t|y(x,\textbf{w}),\beta^{-1})\tag{1.60}
 $$
 
 * We have defined a precision parameter $\beta$ corresponding to the inverse varience of the distribution.
@@ -507,11 +523,11 @@ $$
 
 We now use the training data $\{\textbf{x,t}\}$ to determine the values of the unknown parameters $\textbf{w}$ and $\beta$ by maximum likelihood. If the data are assumed to be drawn independently from the distribution just above, then the likelihood functions is given by
 $$
-p(\textbf{t}|\textbf{x},\textbf{w},\beta)=\prod_{n=1}^{N}N(t_n|y(x_n,\textbf{w}),\beta^{-1})
+p(\textbf{t}|\textbf{x},\textbf{w},\beta)=\prod_{n=1}^{N}N(t_n|y(x_n,\textbf{w}),\beta^{-1})\tag{1.61}
 $$
 As we did before, it is convenient to maximize the logarithm of the likelihood function. We obtain the log likelihood function in the form
 $$
-\ln{p(\textbf{t}|\textbf{x},\textbf{w},\beta)}=-\frac{\beta}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2+\frac{N}{2}\ln{\beta}-\frac{N}{2}\ln{(2\pi)}
+\ln{p(\textbf{t}|\textbf{x},\textbf{w},\beta)}=-\frac{\beta}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2+\frac{N}{2}\ln{\beta}-\frac{N}{2}\ln{(2\pi)}\tag{1.62}
 $$
 **Initially:**
 
@@ -521,15 +537,15 @@ $$
 
 We can also use maximum likelihood to determine the precision parameter $\beta$ of the Gaussian conditional distribution. Maximizing with respect to $\beta$ gives
 $$
-\frac{1}{\beta_{ML}}=\frac{1}{N}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2
+\frac{1}{\beta_{ML}}=\frac{1}{N}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2\tag{1.63}
 $$
 Having determined the parameters $\textbf{w}$ and $β$, we can now make predictions for new values of $x$. Because we now have a probabilistic model, these are expressed in terms of the predictive distribution that gives the probability distribution over t, rather than simply a point estimate, and is obtained by substituting the maximum likelihood parameters to give
 $$
-p(t|x,\textbf{w}_{ML},\beta_{ML})=N(t|y(x,\textbf{w}_{ML}),\beta_{ML}^{-1})
+p(t|x,\textbf{w}_{ML},\beta_{ML})=N(t|y(x,\textbf{w}_{ML}),\beta_{ML}^{-1})\tag{1.64}
 $$
 Now let us take a step towards a more Bayesian approach and introduce a prior distribution over the polynomial coefficients $\textbf{w}$. For simplicity, let us consider a Gaussian distribution of the form
 $$
-p(\textbf{w}|\alpha)=N(\textbf{w}|\textbf{0},\alpha^{-1}\textbf{I})=(\frac{\alpha}{2\pi})^{(M+1)/2}\exp{\{-\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}\}}
+p(\textbf{w}|\alpha)=N(\textbf{w}|\textbf{0},\alpha^{-1}\textbf{I})=(\frac{\alpha}{2\pi})^{(M+1)/2}\exp{\{-\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}\}}\tag{1.65}
 $$
 
 * $\alpha$ is the precision of the distribution.
@@ -538,13 +554,145 @@ $$
 
 Using Bayes' theorem, the posterior distribution for $\textbf{w}$ is proportional to the product of the prior distribution and the likelihood function
 $$
-p(\textup{w}|\textbf{x,t},\alpha,\beta)\propto p(\textbf{t|x},\textup{w},\beta)p(\textup{w}|\alpha)
+p(\textup{w}|\textbf{x,t},\alpha,\beta)\propto p(\textbf{t|x},\textup{w},\beta)p(\textup{w}|\alpha)\tag{1.66}
 $$
 we can now determine the $\textup{w}$ by finding the most probable value of $\textup{w}$ given the data, in other words by maximizing the posterior distribution. This technique is called *maximum posterior*, or simply *MAP*. Taking the negative logarithm of the posterior and combine with the expression of prior and likelihood, we find that the maximum of the posterior is given by the minimum of
 $$
-\frac{\beta}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2+\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}
+\frac{\beta}{2}\sum_{n=1}^{N}\{y(x_n,\textbf{w})-t_n\}^2+\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}\tag{1.67}
 $$
 
 
 Thus we see that maximizing the posterior distribution is equivalent to minimizing the regularized sum-of-squares error function encountered earlier in the form of polynomial episode, with a regularization parameter given by $\lambda=\alpha/\beta$.
 
+***
+
+
+
+### 1.2.6 Bayesian curve fitting
+
+Although we have included a prior distribution $p(\textbf{w}|\alpha)$, we are still making a point estimate of $\textbf{w}$ and so this does not yet amount to Bayesian treatment.
+
+In a fully Bayesian approach, we should apply:
+
+* sum rule of probability
+* product rule of probability
+
+**Our goal:**
+
+To predict the value of $t$, given the training data $\textrm{x}$ and $\textrm{t}$ along with a new test point $x$.
+
+Therefore, we wish to evaluate the predictive distribution $p(t|x,\textbf{x},\textbf{t})$.
+
+**Assumption:**
+
+The parameters $\alpha$ and $\beta$ are fixed and known in advance.
+
+**Now we start:**
+
+A Bayesian treatment simply corresponds to a consistent application of the sum and product rules of probability, which allow the predictive distribution to be written in the form  
+$$
+p(t|x,\textbf{x},\textbf{t})=\int{p(t|x,\textbf{w})p(\textbf{w}|\textbf{x,t})\textrm{d}\textbf{w}}\tag{1.68}
+$$
+
+* $p(t|x,\textbf{w})$ is given by (1.60).
+* we have omitted the dependence on $\alpha$ and $\beta$.
+* $p(\textbf{w}|\textbf{x,t})$ is the posterior distribution over parameters, and can be found by normalizing the right-hand side of (1.66).
+
+Similarly, the integration in (1.68) can also be performed analytically with the result that the predictive distribution is given by a Gaussian of the form  
+$$
+p(t|x,\textbf{x},\textbf{t})=\textit{N}(t|m(x),s^2(x))\tag{1.69}
+$$
+where the mean and variance are given by
+$$
+\begin{align}
+    m(x)&=\beta\phi(x)^\textrm{T}\textbf{S}\sum_{n=1}^{N}\phi(x_n)t_n \tag{1.70}
+\\
+    s^2(x)&=\beta^{-1}+\phi(x)^{\textrm{T}}\textbf{S}\phi(x) \tag{1.71}
+\end{align}
+$$
+
+Here the matrix $\textbf{S}$ is given by
+$$
+\textbf{S}^{-1}=\alpha\textbf{I}+\beta\sum_{n=1}^{N}\phi(x_n)\phi(x_n)^{\textrm{T}}\tag{1.72}
+$$
+
+* $\textbf{I}$ is the unit matrix
+* vector $\phi(x)$ is defined with elements $\phi_i(x)=x^i$ for $i=0,_\cdots,M$
+
+**What we can see:**
+
+* We see that the variance, as well as the mean, of the predictive distribution in (1.69) is dependent on $x$.  
+* The first term in (1.71) represents the uncertainty in the predicted value of $t$ due to the noise on the target variables and was expressed already in the maximum likelihood predictive distribution (1.64) through $β_{ML}^{-1}$ .   
+* However, the second term arises from the uncertainty in the parameters $\textbf{w}$ and is a consequence of the Bayesian treatment.  
+
+<img src="../pic/image-20211116153332093.png" alt="image-20211116153332093" style="zoom:80%;" />
+
+## 1.3 Model Selection
+
+In our example of polynomial curve fitting using least squares, we saw that there was an optimal order of polynomial that gave the best generalization. The order of the polynomial controls the number of free parameters in the model and thereby governs the model complexity.   
+
+We have already seen that, in the maximum likelihood approach, the performance on the training set is not a good indicator of predictive performance on unseen data due to the problem of over-fitting.  
+
+In many applications, however, the supply of data for training and testing will be limited, and in order to build good models, we wish to use as much of the available data as possible for training.  
+
+However, if the validation set is small, it will give a relatively noisy estimate of predictive performance. One solution to this dilemma is to use *cross-validation*.:
+
+* This allows a proportion $(S - 1)/S$ of the available data to be used for training while making use of all of the data to assess performance. 
+* When data is particularly scarce, it may be appropriate to consider the case $S = N$, where $N$ is the total number of data points, which gives the *leave-one-out* technique.  
+
+<img src="../pic/image-20211116154529992.png" alt="image-20211116154529992" style="zoom:80%;" />
+
+* Drawback: 
+  * cross-validation is that the number of training runs that must be performed is increased by a factor of $S$
+  * we might have multiple complexity parameters for a single model
+
+* Historical information criteria :
+  * *Akaike information criterion*, or AIC
+    $$
+    \ln{p}(D|\textbf{w}_{ML})-M
+    $$
+    the first term is the best-fit log likelihood, and $M$ is the number of adjustable parameters in the model.   
+  
+  * *Bayesian information criterion*, or BIC
+
+***
+
+
+
+## 1.4 The Curse of Dimensionality
+
+**Problem case:**
+
+<img src="../pic/image-20211116155820783.png" alt="image-20211116155820783" style="zoom:80%;" />
+
+a mixture of oil, water, and gas (Bishop and James, 1993). These three materials can be present in one of three different geometrical configurations known as ‘homogenous’, ‘annular’, and ‘laminar’, and the fractions of the three materials can also vary. Each data point comprises a 12-dimensional input vector consisting of measurements taken with gamma ray densitometers that measure the attenuation of gamma rays passing along narrow beams through the pipe.   
+
+How can we turn this intuition into a learning algorithm? One very simple approach would be to divide the input space into regular cells.
+
+<img src="../pic/image-20211116160017437.png" alt="image-20211116160017437" style="zoom:80%;" />
+
+There are numerous problems with this naive approach, but one of the most severe becomes apparent when we consider its extension to problems having larger numbers of input variables, corresponding to input spaces of higher dimensionality.  
+
+<img src="../pic/image-20211116160211498.png" alt="image-20211116160211498" style="zoom:80%;" />
+
+>  if we divide a region of a space into regular cells, then the number of such cells grows exponentially with the dimensionality of the space.  
+
+**From the polynomial curve fitting and considering how we would  extend this approach to deal with input spaces having several variables.  **
+
+If we have D input variables, then a general polynomial with coefficients up to order 3 would take the form  
+$$
+y(\textbf{x},\textbf{w})=w_0+\sum_{i=1}^{D}w_ix_i+\sum_{i=1}^{D}\sum_{j=1}^{D}w_{ij}x_ix_j+\sum_{i=1}^{D}\sum_{j=1}^{D}\sum_{k=1}^{D}w_{ijk}x_ix_jx_k\tag{1.74}
+$$
+As $D$ increases, so the number of independent coefficients (not all of the coefficients are independent due to interchange symmetries amongst the x variables) grows proportionally to $D^3$.   
+
+**A primer idea:**
+
+* We see that, for large $D$, this fraction tends to 1 even for small values of . Thus, in spaces of high dimensionality, most of the volume of a sphere is concentrated in a thin shell near the surface<img src="../pic/image-20211116161551529.png" alt="image-20211116161551529" style="zoom:80%;" />
+* we see that for large D the probability mass of the Gaussian is concentrated in a thin shell.  (Why?)<img src="../pic/image-20211116161726468.png" alt="image-20211116161726468" style="zoom:80%;" />
+
+==The severe difficulty that can arise in spaces of many dimensions is sometimes called the *curse of dimensionality* (Bellman, 1961)==.   
+
+Although the curse of dimensionality certainly raises important issues for pattern recognition applications, ==it does not prevent us from finding effective techniques applicable to high-dimensional spaces==.
+
+1. First, real data will often be **confined to a region of the space having lower effective dimensionality**, and in particular the directions over which important variations in the target variables occur may be so confined.   
+2. Second, real data will typically **exhibit some smoothness properties** (at least locally) so that for the most part small changes in the input variables will produce small changes in the target variables, and so we can exploit local interpolation-like techniques to allow us to make predictions of the target variables for new values of the input variables.   
