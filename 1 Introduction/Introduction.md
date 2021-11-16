@@ -340,18 +340,18 @@ with an analogous definition for continuous variables.
 
 The *variance* of $f(x)$ is defined by
 $$
-var[f]=\mathbb{E}[(f(x)-\mathbb{E}[f(x)])^2]\tag{1.38}
+\textrm{var}[f]=\mathbb{E}[(f(x)-\mathbb{E}[f(x)])^2]\tag{1.38}
 $$
 and provides a measure of how much variability there is in $f(x)$ around its mean value $\mathbb{E}[f(x)]$.
 
 Expanding out the square, we see that the variance can also be written in terms of the expectations of $f(x)$ and $f(x)^2$
 $$
-var[f]=\mathbb{E}[f(x)^2]-\mathbb{E}[f(x)]^2\tag{1.39}
+\textrm{var}[f]=\mathbb{E}[f(x)^2]-\mathbb{E}[f(x)]^2\tag{1.39}
 $$
 For two random variables $x$ and $y$, the *covariance* is defined by
 $$
 \begin{align}
-cov[x,y]&=\mathbb{E}_{x,y}[\{x-\mathbb{E}[x]\}\{y-\mathbb{E}[y]\}]
+\textrm{cov}[x,y]&=\mathbb{E}_{x,y}[\{x-\mathbb{E}[x]\}\{y-\mathbb{E}[y]\}]
 \\
 &=\mathbb{E}_{x,y}[xy]-\mathbb{E}[x]\mathbb{E}[y]\tag{1.41}
 \end{align}
@@ -361,7 +361,7 @@ If x and y are independent, then their covariance vanishes.
 In the case of two vectors of random variables $\textbf{x}$ and $\textbf{y}$, the covariance is a matrix
 $$
 \begin{align}
-	cov[\textbf{x},\textbf{y}]&=\mathbb{E}_{\textbf{x},\textbf{y}}[\{\textbf{x}-\mathbb{E}[\textbf{x}]\}\{\textbf{y}^T-\mathbb{E}[\textbf{y}^T]\}]\\
+	\textrm{cov}[\textbf{x},\textbf{y}]&=\mathbb{E}_{\textbf{x},\textbf{y}}[\{\textbf{x}-\mathbb{E}[\textbf{x}]\}\{\textbf{y}^T-\mathbb{E}[\textbf{y}^T]\}]\\
 	&=\mathbb{E}_{\textbf{x},\textbf{y}}[{\textbf{x}\textbf{y}^T}]-\mathbb{E}[\textbf{x}]\mathbb{E}[\textbf{y}^T]\tag{1.42}
 \end{align}
 $$
@@ -382,15 +382,15 @@ In my word: probability theory can be regarded as an extention of Boolean logic 
 
 Now, let us use the machinery of probability theory to describe the uncertainty in model parameters such as $\textbf{w}$ from a Bayesian perspective.
 
-We capture our assumptions about $\textbf{w}$, before observing the data, in the form of a prior probability distribution $p(\textbf{w})$. The effect of the observed data $D = \{t_1, . . . , t_N\} $ is expressed through the conditional probability $p(D|\textbf{w})$
+We capture our assumptions about $\textbf{w}$, before observing the data, in the form of a prior probability distribution $p(\textbf{w})$. The effect of the observed data $\mathcal{D} = \{t_1, . . . , t_N\} $ is expressed through the conditional probability $p(D|\textbf{w})$
 
 Bayes' theorem, which takes the form
 $$
-p(\textbf{w}|D)=\frac{p(D|\textbf{w})p(\textbf{w})}{p(D)}\tag{1.43}
+p(\textbf{w}|\mathcal{D})=\frac{p(\mathcal{D}|\textbf{w})p(\textbf{w})}{p(D)}\tag{1.43}
 $$
-then allows us to evaluate the uncertainty in $\textbf{w}$ after we have observed $D$ in the form of the posterior probability $p(\textbf{w}|D)$.
+then allows us to evaluate the uncertainty in $\textbf{w}$ after we have observed $\mathcal{D}$ in the form of the posterior probability $p(\textbf{w}|\mathcal{D})$.
 
-The quantity $p(D|\textbf{w})$ on the right-hand side of Bayes’ theorem is evaluated for the observed data set D and can be viewed as a function of the parameter vector $\textbf{w}$, in which case it is called the *likelihood function*. It expresses how probable the observed data set is, for different settings of the parameter vector $\textbf{w}$.
+The quantity $p(D|\textbf{w})$ on the right-hand side of Bayes’ theorem is evaluated for the observed data set $\mathcal{D}$ and can be viewed as a function of the parameter vector $\textbf{w}$, in which case it is called the *likelihood function*. It expresses how probable the observed data set is, for different settings of the parameter vector $\textbf{w}$.
 
 Given this definition of likelihood, we can state Bayes’ theorem in words
 $$
@@ -398,9 +398,9 @@ $$
 $$
 where all of these quantities are viewed as functions of $\textbf{w}$.
 
-* In a frequentist setting, $\textbf{w}$ is considered to be a <u>fixed parameter</u>, whose value is determined by some form of ‘estimator’, and error bars on this estimate are obtained by considering the distribution of possible data sets $D$.
+* In a frequentist setting, $\textbf{w}$ is considered to be a <u>fixed parameter</u>, whose value is determined by some form of ‘estimator’, and error bars on this estimate are obtained by considering the distribution of possible data sets $\mathcal{D}$.
   * One approach to determining frequentist error bars is the *bootstrap*. Briefly, our original data set consists of $N$ data points $X=\{x_1,_\cdots,x_N\}$. We can create a new dataset $X_B$ by drawing $N$ points at random from $X$. This process can be repeated $L$ times to generate $L$ data sets each of size $N$ and each obtained by sampling from the original data set $X$​.The statistical accuracy of parameter estimates can then be evaluated by looking at the variability of predictions between the different bootstrap data sets.
-* By contrast, from the Bayesian viewpoint there is only a single data set $D$ (namely the one that is actually observed), and the <u>uncertainty in the parameters is expressed through a probability distribution over $\textbf{w}$</u>.
+* By contrast, from the Bayesian viewpoint there is only a single data set $\mathcal{D}$ (namely the one that is actually observed), and the <u>uncertainty in the parameters is expressed through a probability distribution over $\textbf{w}$</u>.
   * One advantage of the Bayesian viewpoint is that the inclusion of prior knowledge arises naturally.
 
 ### 1.2.4 The Gaussian distribution
@@ -410,7 +410,7 @@ One of the most important probability distributions for continues variables: *no
 For the case of a single real-valued variable $x$, the Gaussian distribution is defined
 by
 $$
-N(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{\frac{1}{2}}}\exp{\{-\frac{1}{2\sigma^2}(x-\mu)^2\}}\tag{1.46}
+\mathcal{N}(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{\frac{1}{2}}}\exp{\{-\frac{1}{2\sigma^2}(x-\mu)^2\}}\tag{1.46}
 $$
 
 * $\mu$ is called the *mean*
@@ -422,31 +422,31 @@ $$
 
 We can see that the Gaussian distribution satisfied:
 $$
-N(x|\mu,\sigma^2)>0\tag{1.47}
+\mathcal{N}(x|\mu,\sigma^2)>0\tag{1.47}
 $$
 also:
 $$
-\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)\textrm{d}x=1\tag{1.48}
+\int_{-\infty}^{\infty}\mathcal{N}(x|\mu,\sigma^2)\textrm{d}x=1\tag{1.48}
 $$
 Thus the PDF satisfies the two requirements for a valid probability density.
 
 We can readily find expectations of functions of x under the Gaussian distribution. In particular, the average value of $x$ is given by
 $$
-\mathbb{E}[x]=\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)xdx=\mu\tag{1.49}
+\mathbb{E}[x]=\int_{-\infty}^{\infty}\mathcal{N}(x|\mu,\sigma^2)x\textrm{d}x=\mu\tag{1.49}
 $$
 Similarly, for the second order moment
 $$
-\mathbb{E}[x^2]=\int_{-\infty}^{\infty}N(x|\mu,\sigma^2)x^2dx=\mu^2+\sigma^2\tag{1.50}
+\mathbb{E}[x^2]=\int_{-\infty}^{\infty}\mathcal{N}(x|\mu,\sigma^2)x^2\textrm{d}x=\mu^2+\sigma^2\tag{1.50}
 $$
 The variance of $x$ is given by
 $$
-var[x]=\mathbb{E}[x^2]-\mathbb{E}[x]^2=\sigma^2\tag{1.51}
+\textrm{var}[x]=\mathbb{E}[x^2]-\mathbb{E}[x]^2=\sigma^2\tag{1.51}
 $$
 The maximum of a distribution is known as its **mode**. For a Gaussian, the mode coincides with the mean, for it is the highest point of the curve and have the most probability.
 
-The Gaussian distribution defined over a $D$-dimensional vector $\textbf{x}$ of continuous variables is given by
+The Gaussian distribution defined over a $\mathcal{D}$-dimensional vector $\textbf{x}$ of continuous variables is given by
 $$
-N(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\mu)^\textup{T}\Sigma^{-1}(\textbf{x}-\mu)\}}\tag{1.52}
+\mathcal{N}(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\mu)^\textup{T}\Sigma^{-1}(\textbf{x}-\mu)\}}\tag{1.52}
 $$
 
 * The $D$-dimensional vector $\mu$ is  called the mean
@@ -459,7 +459,7 @@ $$
 
 Now suppose that we have a dataset of observations $\textbf{x}=(x_1,_\cdots,x_N)^T$,representing $N$ observations of scalar variable $x$. And our dataset  $\textbf{x}$ is i.i.d., we can write the probability of the dataset, given $\mu$ and $\sigma^2$, in the form
 $$
-p(\textbf{x}|\mu,\sigma^2)=\prod_{n=1}^{N}N(x_n|\mu,\sigma^2)\tag{1.53}
+p(\textbf{x}|\mu,\sigma^2)=\prod_{n=1}^{N}\mathcal{N}(x_n|\mu,\sigma^2)\tag{1.53}
 $$
 When viewed as a function of $\mu$ and $\sigma^2$, this is the likelihood function for theGaussian and is interpreted diagrammatically in the Figure below
 
@@ -514,7 +514,7 @@ Here we return to the curve fitting example and view it from a probabilistic per
 
 Given the value of $x$, the corresponding value of $t$ has a Gaussian distribution with a mean equal to the value $y(x,\textbf{w})$ of the polynomial curve. Thus we have
 $$
-p(t|x,\textbf{w},\beta)=N(t|y(x,\textbf{w}),\beta^{-1})\tag{1.60}
+p(t|x,\textbf{w},\beta)=\mathcal{N}(t|y(x,\textbf{w}),\beta^{-1})\tag{1.60}
 $$
 
 * We have defined a precision parameter $\beta$ corresponding to the inverse varience of the distribution.
@@ -523,7 +523,7 @@ $$
 
 We now use the training data $\{\textbf{x,t}\}$ to determine the values of the unknown parameters $\textbf{w}$ and $\beta$ by maximum likelihood. If the data are assumed to be drawn independently from the distribution just above, then the likelihood functions is given by
 $$
-p(\textbf{t}|\textbf{x},\textbf{w},\beta)=\prod_{n=1}^{N}N(t_n|y(x_n,\textbf{w}),\beta^{-1})\tag{1.61}
+p(\textbf{t}|\textbf{x},\textbf{w},\beta)=\prod_{n=1}^{N}\mathcal{N}(t_n|y(x_n,\textbf{w}),\beta^{-1})\tag{1.61}
 $$
 As we did before, it is convenient to maximize the logarithm of the likelihood function. We obtain the log likelihood function in the form
 $$
@@ -541,11 +541,11 @@ $$
 $$
 Having determined the parameters $\textbf{w}$ and $β$, we can now make predictions for new values of $x$. Because we now have a probabilistic model, these are expressed in terms of the predictive distribution that gives the probability distribution over t, rather than simply a point estimate, and is obtained by substituting the maximum likelihood parameters to give
 $$
-p(t|x,\textbf{w}_{ML},\beta_{ML})=N(t|y(x,\textbf{w}_{ML}),\beta_{ML}^{-1})\tag{1.64}
+p(t|x,\textbf{w}_{ML},\beta_{ML})=\mathcal{N}(t|y(x,\textbf{w}_{ML}),\beta_{ML}^{-1})\tag{1.64}
 $$
 Now let us take a step towards a more Bayesian approach and introduce a prior distribution over the polynomial coefficients $\textbf{w}$. For simplicity, let us consider a Gaussian distribution of the form
 $$
-p(\textbf{w}|\alpha)=N(\textbf{w}|\textbf{0},\alpha^{-1}\textbf{I})=(\frac{\alpha}{2\pi})^{(M+1)/2}\exp{\{-\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}\}}\tag{1.65}
+p(\textbf{w}|\alpha)=\mathcal{N}(\textbf{w}|\textbf{0},\alpha^{-1}\textbf{I})=(\frac{\alpha}{2\pi})^{(M+1)/2}\exp{\{-\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}\}}\tag{1.65}
 $$
 
 * $\alpha$ is the precision of the distribution.
@@ -600,7 +600,7 @@ $$
 
 Similarly, the integration in (1.68) can also be performed analytically with the result that the predictive distribution is given by a Gaussian of the form  
 $$
-p(t|x,\textbf{x},\textbf{t})=\textit{N}(t|m(x),s^2(x))\tag{1.69}
+p(t|x,\textbf{x},\textbf{t})=\mathcal{N}(t|m(x),s^2(x))\tag{1.69}
 $$
 where the mean and variance are given by
 $$
@@ -649,7 +649,7 @@ However, if the validation set is small, it will give a relatively noisy estimat
 * Historical information criteria :
   * *Akaike information criterion*, or AIC
     $$
-    \ln{p}(D|\textbf{w}_{ML})-M
+    \ln{p}(\mathcal{D}|\textbf{w}_{ML})-M
     $$
     the first term is the best-fit log likelihood, and $M$ is the number of adjustable parameters in the model.   
   
