@@ -696,3 +696,81 @@ Although the curse of dimensionality certainly raises important issues for patte
 
 1. First, real data will often be **confined to a region of the space having lower effective dimensionality**, and in particular the directions over which important variations in the target variables occur may be so confined.   
 2. Second, real data will typically **exhibit some smoothness properties** (at least locally) so that for the most part small changes in the input variables will produce small changes in the target variables, and so we can exploit local interpolation-like techniques to allow us to make predictions of the target variables for new values of the input variables.   
+
+***
+
+
+
+## 1.5 Decision Theory
+
+Decision theory allows us to make optimal decisions in situations involving uncertainty such as those encountered in pattern recognition. 
+
+**What we have:**
+
+*  an input vector $\textrm{x}$
+* target variables vector $\textrm{t}$
+
+**Our goal:**
+
+Predict $\textbf{t}$ given a new value for $\textrm{x}$
+
+**For regression problems:**
+
+> $\textbf{t}$ will comprise continuous variables
+
+**For classification problems:**
+
+> $\textbf{t}$ will represent class labels
+
+The joint probability distribution $p(\textrm{x}, \textbf{t})$ provides a complete summary of the uncertainty associated with these variables. Determination of $p(\textrm{x}, \textbf{t})$ from a set of training data is an example of *inference*. 
+
+**What the decision theory do:**
+
+In a practical application, however, we must often make a specific prediction for the value of $\textbf{t}$, or more generally take a specific action based on our understanding of the values $\textbf{t}$ is likely to take.
+
+**Problem case:**
+
+**Problem:** a medical diagnosis problem in which we have taken an X-ray image of a patient, and we wish to determine whether the patient has cancer or not.
+
+**Input:** input vector $\textbf{x}$ is the set of pixel intensities in the image  
+
+**Output:** output variable $t$ will represent the presence of cancer, which we denote by the class $\mathcal{C}_1$, or the absence of cancer, which we denote by the class $\mathcal{C}_2$. We might choose t to be a binary variable such that $t=0$ corresponds to class $\mathcal{C}_1$ and $t=1$ corresponds to class $\mathcal{C}_2$.
+
+**We transform the problem into:** The general inference problem then involves determining the joint distribution $p(\textbf{x},\mathcal{C}_k)$, or equivalently $p(\textbf{x},t)$, which gives us the most complete probabilistic description of the situation.
+
+**What we should do:** we must decide either to give treatment to the patient or not, and we would like this choice to be optimal in some appropriate sense (Duda and Hart, 1973). This is the decision step, and it is the subject of decision theory to tell us how to make optimal decisions given the appropriate probabilities.
+
+**How we might expect probabilities to play a role in making decisions:**
+
+When we obtain the X-ray image $\textbf{x}$ for a new patient, our goal is to decide which of the two classes to assign to the image. We are interested in the probabilities of the two classes given the image, which are given by $p(\mathcal{C}_k|\textbf{x})$. Using Bayes’ theorem, these probabilities can be expressed in the form
+$$
+p(\mathcal{C}_k|\textbf{x})=\frac{p(\textbf{x}|\mathcal{C}_k)p(\mathcal{C}_k)}{p(\textbf{x})}\tag{1.77}
+$$
+
+* We can now interpret $p(\mathcal{C}_k)$ as the prior probability for the class $\mathcal{C}_k$.
+* And $p(\mathcal{C}_k|\textbf{x})$ as the corresponding posterior probability.
+* If our aim is to minimize the chance of assigning x to the wrong class, then intuitively we would choose the class having the higher posterior probability.
+
+
+
+### 1.5.1 Minimizing the misclassification rate
+
+**Our goal:**
+
+Make as few misclassifications as possible.
+
+**What we need:**
+
+A rule that assigns each value of $\textbf{x}$ to one of the available classes. 
+
+* Such a rule will <u>divide the input space into regions</u> $\mathcal{R}_k$ called *decision regions*, 
+* one for each class, such that all points in $\mathcal{R}_k$ are <u>assigned to class</u> $\mathcal{C}_k$.
+* The <u>boundaries between decision regions</u> are called *decision boundaries* or *decision surfaces*.
+
+In order to find the optimal decision rule, consider first of all the case of two classes, as in the cancer problem for instance. A mistake occurs when an input vector belonging to class $\mathcal{C}_1$ is assigned to class $\mathcal{C}_2$ or vice versa. The probability of this occurring is given by
+$$
+\begin{align}
+	p(\textrm{mistake}) &= p(\textbf{x}\in \mathcal{R}_2,\mathcal{C}_1)+p(\textbf{x}\in \mathcal{R}_1,\mathcal{C}_2)\\
+	&=\int_{\mathcal{R}_1}p(\textbf{x},\mathcal{C}_2)\textrm{d}\textbf{x}+\int_{\mathcal{R}_2}p(\textbf{x},\mathcal{C}_1)\textrm{d}\textbf{x}
+\end{align}
+$$
