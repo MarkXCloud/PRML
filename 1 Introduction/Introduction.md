@@ -629,9 +629,9 @@ $$
 
 ## 1.3 Model Selection
 
-In our example of polynomial curve fitting using least squares, we saw that there was an optimal order of polynomial that gave the best generalization. The order of the polynomial controls the number of free parameters in the model and thereby governs the model complexity.   
+In our example of polynomial curve fitting using least squares, we saw that there was an optimal order of polynomial that gave the best generalization. The order of the polynomial controls the number of free parameters in the model and thereby governs the model complexity. We have already seen that, in the maximum likelihood approach, the performance on the training set is not a good indicator of predictive performance on unseen data due to the problem of over-fitting.  
 
-We have already seen that, in the maximum likelihood approach, the performance on the training set is not a good indicator of predictive performance on unseen data due to the problem of over-fitting.  
+**K-fold cross validation:**
 
 In many applications, however, the supply of data for training and testing will be limited, and in order to build good models, we wish to use as much of the available data as possible for training.  
 
@@ -665,7 +665,7 @@ However, if the validation set is small, it will give a relatively noisy estimat
 
 <img src="../pic/image-20211116155820783.png" alt="image-20211116155820783" style="zoom:80%;" />
 
-a mixture of oil, water, and gas (Bishop and James, 1993). These three materials can be present in one of three different geometrical configurations known as ‘homogenous’, ‘annular’, and ‘laminar’, and the fractions of the three materials can also vary. Each data point comprises a 12-dimensional input vector consisting of measurements taken with gamma ray densitometers that measure the attenuation of gamma rays passing along narrow beams through the pipe.   
+> a mixture of oil, water, and gas (Bishop and James, 1993). These three materials can be present in one of three different geometrical configurations known as ‘homogeneous’, ‘annular’, and ‘laminar’, and the fractions of the three materials can also vary. Each data point comprises a 12-dimensional input vector consisting of measurements taken with gamma ray densitometers that measure the attenuation of gamma rays passing along narrow beams through the pipe.   
 
 How can we turn this intuition into a learning algorithm? One very simple approach would be to divide the input space into regular cells.
 
@@ -703,7 +703,7 @@ Although the curse of dimensionality certainly raises important issues for patte
 
 ## 1.5 Decision Theory
 
-Decision theory allows us to make optimal decisions in situations involving uncertainty such as those encountered in pattern recognition. 
+> Decision theory allows us to make optimal decisions in situations involving uncertainty such as those encountered in pattern recognition. 
 
 **What we have:**
 
@@ -980,6 +980,8 @@ $$
 
 > We close this chapter by introducing some additional concepts from the field of information theory, which will also prove useful in our development of pattern recognition and machine learning techniques.   
 
+**Intro to entropy:**
+
 **We have:** a discrete random variable $x$
 
 **We ask:** how much information is received when we observe a specific value for this variable
@@ -1121,3 +1123,97 @@ If we evaluate the differential entropy of the Gaussian, we obtain
 $$
 \textrm{H}[x]=\frac{1}{2}\{1+\ln(2\pi\sigma^2)\}\tag{1.110}
 $$
+
+* Thus we see again that the entropy increases as the distribution becomes broader, i.e., as $\sigma^2$ increases.
+* The differential entropy, unlike the discrete entropy, can be negative, because $\textrm{H}(x)<0$ in (1.110) for $\sigma^2<1/(2\pi e)$.
+
+**Conditional entropy:**
+
+Suppose we have a joint distribution $p(\textbf{x,y})$. If $\textbf{x}$ is already known, then the information needed to specify the corresponding value of $\textbf{y}$ is given by $\ln p(\textbf{y|x})$. Thus the average additional information needed to specify $\textbf{y}$ can be written as
+$$
+\textrm{H}[\textbf{y|x}]=-\iint p(\textbf{y,x})\ln{p(\textbf{y,x})}\textrm{d}\textbf{y}\textrm{d}\textbf{x}\tag{1.111}
+$$
+which is called the *conditional entropy* of $\textbf{y}$ given $\textbf{x}$.
+
+It satisfied
+$$
+\textrm{H}[\textbf{x,y}]=\textrm{H}[\textbf{y|x}]+\textrm{H}[\textbf{x}]\tag{1.112}
+$$
+Thus the information needed to describe $\textbf{x}$ and $\textbf{y}$ is given by the sum of the information needed to describe $\textbf{x}$ alone plus the additional information required to specify $\textbf{y}$ given $\textbf{x}$.  
+
+***
+
+### 1.6.1 Relative entropy and mutual information
+
+> We now start to relate these ideas to pattern recognition.  
+
+#### **KL-divergence:**
+
+**Suppose:**
+
+Some unknown distribution $p(\textbf{x})$, we have modeled this using an approximating distribution $q(\textbf{x})$.
+
+then the average *additional* amount of information (in nats) required to specify the value of $\textbf{x}$ as a result of using $q(\textbf{x})$ instead of the true distribution $p(\textbf{x})$ is given by
+$$
+\begin{align}
+	\textrm{KL}(p||q) &= -\int p(\textbf{x})\ln q(\textbf{x})\textrm{d}\textbf{x}-(-\int p(\textbf{x})\ln p(\textbf{x})\textrm{d}\textbf{x})\\
+	&= -\int p(\textbf{x})\ln \{\frac{q(\textbf{x})}{p(\textbf{x})}\}\textrm{d}\textbf{x}\tag{1.113}
+\end{align}
+$$
+This is known as the *relative entropy* or *Kullback-Leibler divergence*, or *KL divergence* (Kullback and Leibler, 1951), between the distributions $p(\textbf{x})$ and $q(\textbf{x})$.
+
+* $\textrm{KL}(p||q)\not\equiv \textrm{KL}(q||p)$
+* $\textrm{KL}(p||q)\ge0$ if and only if $p(\textbf{x})=q(\textbf{x})$
+
+To prove the property  of the second one, we use
+$$
+f(\sum_{i=1}^M\lambda_ix_i)\le\sum_{i=1}^{M}\lambda_if(x_i)\tag{1.115}
+$$
+for a convex function $f(x)$ where $\lambda_i\ge0$ and $\sum_i\lambda_i=1$. It is also known as *Jensen's inequality*. If we interpret the $λ_i$ as the probability distribution over a discrete variable $x$ taking the values $\{x_i\}$, then (1.115) can be written
+$$
+f(\mathbb{E}[x])\le\mathbb{E}[f(x)]\tag{1.116}
+$$
+For continuous variables:
+$$
+f(\int \textbf{x}p(\textbf{x})\textrm{d}\textbf{x})\le\int f(\textbf{x})p(\textbf{x})\textrm{d}\textbf{x}\tag{1.117}
+$$
+Apply to (1.113):
+$$
+\textrm{KL}(p||q) =-\int p(\textbf{x})\ln \{\frac{q(\textbf{x})}{p(\textbf{x})}\}\textrm{d}\textbf{x}\ge-\ln\int q(\textbf{x})\textrm{d}\textbf{x}=0\tag{1.118}
+$$
+**How we evaluate our generated model using KL-divergence:**
+
+<u>$p(\textbf{x})$ is unknown</u>, We can try to approximate this distribution using some parametric distribution $q(\textbf{x}|\mathbf{\theta})$.
+
+One way to determine $\mathbf{\theta}$ is to minimize the Kullback-Leibler divergence between $p(\textbf{x}) $ and $q(\textbf{x}|\mathbf{\theta})$ with respect to $\mathbf{\theta}$.   
+
+Suppose, however, that we have observed a finite set of training points $\textbf{x}_n$, for $n = 1, . . . , N$, drawn from $p(\textbf{x}) $. Then the expectation with respect to $p(\textbf{x}) $ can be approximated by a finite sum over these points, using (1.35), so that
+$$
+\textrm{KL}(p||q) \simeq \sum_{n=1}^N\{-\ln q(\textbf{x}_n|\mathbf{\theta})+\ln p(\textbf{x}_n) \}\tag{1.119}
+$$
+
+* The second term on the right-hand side of (1.119) is independent of $\mathbf{\theta}$
+* The first term is the negative log likelihood function for $\mathbf{\theta}$ under the distribution $q(\textbf{x}|\mathbf{\theta})$ evaluated using the training set.
+
+Thus we see that minimizing this Kullback-Leibler divergence is equivalent to maximizing the likelihood function.  
+
+**Using KL-divergence to judge how independent two random variables are: mutual information**
+
+If the variables are not independent, we can gain some idea of whether they are ‘close’ to being independent by considering the Kullback-Leibler divergence between the joint distribution and the product of the marginals, given by
+$$
+\begin{align}
+	\textrm{I}[\textbf{x},\textbf{y}]&\equiv \textrm{KL}(p(\textbf{x},\textbf{y})||p(\textbf{x})p(\textbf{y}))\\
+	&=-\iint p(\textbf{x},\textbf{y})\ln(\frac{p(\textbf{x})p(\textbf{y})}{p(\textbf{x,y})})\textrm{d}\textbf{x}\textrm{d}\textbf{y}\tag{1.120}
+\end{align}
+$$
+which is called the *mutual information*
+
+* $I(\textbf{x,y})\ge0$ if and only if $\textbf{x}$ and $\textbf{y}$ are independent
+
+we see that the mutual information is related to the conditional entropy through
+$$
+\textrm{I}[\textbf{x},\textbf{y}]=\textrm{H}[\textbf{x}]-\textrm{H}[\textbf{x|y}]=\textrm{H}[\textbf{y}]-\textrm{H}[\textbf{y|x}]\tag{1.121}
+$$
+
+* Thus we can view the mutual information as the reduction in the uncertainty about $\textbf{x}$ by virtue of being told the value of $\textbf{y}$ (or vice versa).  
+* From a Bayesian perspective, the mutual information therefore represents the reduction in uncertainty about $\textbf{x}$ as a consequence of the new observation $\textbf{y}$.  
