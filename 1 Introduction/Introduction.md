@@ -971,3 +971,153 @@ The squared loss is not the only possible choice of loss function for regression
 $$
 \mathbb{E}[L_q]=\iint|y(\textbf{x})-t|^qp(\textbf{x},t)\textrm{d}\textbf{x}\textrm{d}t\tag{1.91}
 $$
+
+***
+
+
+
+## 1.6 Information theory
+
+> We close this chapter by introducing some additional concepts from the field of information theory, which will also prove useful in our development of pattern recognition and machine learning techniques.   
+
+**We have:** a discrete random variable $x$
+
+**We ask:** how much information is received when we observe a specific value for this variable
+
+| How possible | How much information |
+| ------------ | -------------------- |
+| improbable   | most                 |
+| likely       | middle               |
+| certain      | least                |
+
+**We look for:** a quantity $h(x)$ that is a monotonic function of the probability $p(x)$ and that expresses the information content.   
+
+**We have:**
+$$
+h(x)=-\log_2{p(x)}\tag{1.92}
+$$
+
+* the negative sign ensures that information is positive or zero.
+* low probability events #$x$ correspond to high information content.
+* using logarithms to the base of 2, the units of $h(x)$ are bits('binary digits'), while the base of e get nats.
+
+The average amount of information
+$$
+\textrm{H}[x]=-\sum_{x}p(x)\log_2{p(x)}\tag{1.93}
+$$
+called *entropy* of the random variable $x$.
+
+> If $p(x)=0$ then the entropy is $0$.
+
+This relation between entropy and shortest coding length is a general one. The *noiseless coding theorem* (Shannon, 1948) states that the entropy is a lower bound on the number of bits needed to transmit the state of a random variable.  
+
+**A prospective of entropy in physics:**
+
+**Considering:**
+
+A set of $N$ identical objects that are to be divided amongst a set of bins, such that there are $n_i$ objects in the $i^{th}$ bin.
+
+There are $N$ ways to choose the first object, $(N-1)$ ways to choose the second object, and so on, leading to a total of $N!$ ways to allocate all $N$ objects to the bins.
+
+In order eliminate the order in each bin, in the $i^{th}$ bin there are $n_i!$ ways of reordering the objects, and so the total number of ways of allocating the $N$ objects to the bins is given by
+$$
+W=\frac{N!}{\prod_in_i!}\tag{1.94}
+$$
+which is called the *multiplicity*. The entropy is then defined as the logarithm of the multiplicity scaled by an appropriate constant
+$$
+\textrm{H}=\frac{1}{N}\ln{W}=\frac{1}{N}\ln{N!}-\frac{1}{N}\sum_i{\ln{n_i!}}\tag{1.95}
+$$
+We now consider the limit $N\rightarrow\infty$, in which the fractions $n_i/N$ are held fixed, and apply Stirling’s approximation
+$$
+\ln{N!}\simeq N\ln{N}-N\tag{1.96}
+$$
+which gives
+$$
+\begin{align}
+	\textrm{H}&=\ln{N}-1-\frac{1}{N}\sum_i{n_i\ln{n_i}}+1 \\
+	\textrm{H}&=\frac{1}{N}\sum_in_i\ln{N}-\frac{1}{N}\sum_i{n_i\ln{n_i}} \\
+	\textrm{H}&=\frac{1}{N}\sum_i\ln{\frac{N^{n_i}}{n_i^{n_i}}} \\
+	\textrm{H}&=-\lim_{N\rightarrow\infty}{\sum_i(\frac{n_i}{N})\ln{(\frac{n_i}{N})}}=-\sum_i{p_i\ln{p_i}}\tag{1.97}
+\end{align}
+$$
+In physics terminology, the specific arrangements of objects in the bins is called a *microstate*, and the overall distribution of occupation numbers, expressed through the ratios $n_i/N$, is called a *macrostate*. The multiplicity W is also known as the weight of the *macrostate*.  
+
+The entropy of the random variable $X$ is then
+$$
+\textrm{H}[p]=-\sum_ip(x_i)\ln{p(x_i)}\tag{1.98}
+$$
+
+| Shape                                 | Entropy |
+| ------------------------------------- | ------- |
+| sharply peaked around a few values    | lower   |
+| spread more evenly across many values | higher  |
+
+![image-20211117170107925](../pic/image-20211117170107925.png)
+
+**To find the maximum entropy configuration:**
+
+Using a Lagrange multiplier:
+$$
+\tilde{\textrm{H}}=-\sum_{i}{p(x_i)\ln{p(x_i)}+\lambda(\sum_i{p(x_i)-1})}\tag{1.99}
+$$
+
+* From which we find that all of the $p(x_i)$ are equal and are given by $p(x_i)=1/M$ where $M$ is the total states of $x_i$.
+* The corresponding value of the entropy is then $\textrm{H}=\ln{M}$.
+
+We can evaluate the second derivative of the entropy, which gives
+$$
+\frac{\partial\tilde{\textrm{H}}}{\partial p(x_i)\partial p(x_j)}=-I_{ij}\frac{1}{p_i}\tag{1.100}
+$$
+where $I_{ij}$ are the elements of the identity matrix.
+
+**Extend the definition of entropy to include distributions $p(x)$ over continuous variables $x$:**   
+
+According to the *mean value theorem*, we have
+$$
+\int_{i\Delta}^{(i+1)\Delta}p(x)\textrm{d}x=p(x_i)\Delta\tag{1.101}
+$$
+This gives a discrete distribution for which the entropy takes the form
+$$
+\textrm{H}_\Delta=-\sum_i{p(x_i)\Delta\ln(p(x_i)\Delta)}=-\sum_ip(x_i)\Delta\ln{p(x_i)}-\ln\Delta\tag{1.102}
+$$
+where $\sum_ip(x_i)\Delta=1$. Omit the $\ln\Delta$ and then consider the limit $\Delta\rightarrow0$. The first term on the right-hand side of (1.102) will approach the integral of $p(x) \ln p(x)$ in this limit so that
+$$
+\lim_{\Delta\rightarrow0}\{\sum_ip(x_i)\Delta\ln{p(x_i)}\}=-\int{p(x)\ln{p(x)}\textrm{d}x}\tag{1.103}
+$$
+where the quantity on the right-hand side is called the *differential entropy*.
+
+Note that as $\Delta\rightarrow0$ the $\ln\Delta$ diverges. This reflects the fact that to specify a continuous variable very precisely requires a large number of bits.
+
+For a density defined over multiple continuous variables, denoted collectively by the vector $\textbf{x}$, the differential entropy is given by
+$$
+\textrm{H}[\textbf{x}]=-\int{p(\textbf{x})\ln{p(\textbf{x})}\textrm{d}\textbf{x}}\tag{1.104}
+$$
+**To find the maximum entropy configuration of continuous:**
+
+three constraints:
+$$
+\begin{align}
+	\int_{-\infty}^{\infty}p(x)\textrm{d}x &= 1\tag{1.105}\\
+	\int_{-\infty}^{\infty}xp(x)\textrm{d}x &= \mu\tag{1.106}\\
+	\int_{-\infty}^{\infty}(x-\mu)^2p(x)\textrm{d}x &= \sigma^2\tag{1.107}\\
+\end{align}
+$$
+Using Lagrange multipliers:
+$$
+-\int_{-\infty}^{\infty}p(x)\ln{p(x)}\textrm{d}x+\lambda_1(\int_{-\infty}^{\infty}p(x)\textrm{d}x-1)\\
++\lambda_2(\int_{-\infty}^{\infty}xp(x)\textrm{d}x - \mu)+\lambda_3(\int_{-\infty}^{\infty}(x-\mu)^2p(x)\textrm{d}x - \sigma^2)
+$$
+Using the calculus of variations, we set the derivative of this functional to zero giving
+$$
+p(x)=\exp\{-1+\lambda_1+\lambda_2x+\lambda_3(x-\mu)^2 \}\tag{1.108}
+$$
+Back substitution,  we get
+$$
+p(x)=\frac{1}{(2\pi\sigma^2)^{1/2}}\ \exp\{-\frac{(x-\mu)^2}{2\sigma^2} \}\tag{1.109}
+$$
+==and so the distribution that maximizes the differential entropy is the Gaussian.==
+
+If we evaluate the differential entropy of the Gaussian, we obtain
+$$
+\textrm{H}[x]=\frac{1}{2}\{1+\ln(2\pi\sigma^2)\}\tag{1.110}
+$$
