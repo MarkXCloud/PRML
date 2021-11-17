@@ -771,6 +771,126 @@ In order to find the optimal decision rule, consider first of all the case of tw
 $$
 \begin{align}
 	p(\textrm{mistake}) &= p(\textbf{x}\in \mathcal{R}_2,\mathcal{C}_1)+p(\textbf{x}\in \mathcal{R}_1,\mathcal{C}_2)\\
-	&=\int_{\mathcal{R}_1}p(\textbf{x},\mathcal{C}_2)\textrm{d}\textbf{x}+\int_{\mathcal{R}_2}p(\textbf{x},\mathcal{C}_1)\textrm{d}\textbf{x}
+	&=\int_{\mathcal{R}_1}p(\textbf{x},\mathcal{C}_2)\textrm{d}\textbf{x}+\int_{\mathcal{R}_2}p(\textbf{x},\mathcal{C}_1)\textrm{d}\textbf{x}\tag{1.78}
 \end{align}
 $$
+**Our principle:**
+
+To minimize $p(\textrm{mistake})$ we should arrange that each $\textbf{x}$ is assigned to whichever class has the smaller value of the integrand in (1.78). Thus, if $p(\textbf{x},\mathcal{C}_1)>p(\textbf{x},\mathcal{C}_2)$ for a given value of $\textbf{x}$, then we should assign that $\textbf{x}$ to class $\mathcal{C}_1$.
+
+We have $p(\textbf{x},\mathcal{C}_k)=p(\mathcal{C}_k|\textbf{x})p(\textbf{x})$. Because the factor $p(\textbf{x})$ is common to both terms, we can assign $\textbf{x}$ to the class which has the largest posterior probability $p(\mathcal{C}_k|\textbf{x})$.
+
+![image-20211117101605262](../pic/image-20211117101605262.png)
+
+> Schematic illustration of the joint probabilities $p(\textbf{x},\mathcal{C}_k)$ for each of two classes plotted against $x$, together with the decision boundary $x = \hat{x}$. Values of $x\ge \hat{x}$ are classified as class $\mathcal{C}_2$ and hence belong to decision region $\mathcal{R}_2$, whereas points $x < \hat{x}$ are classified as $\mathcal{C}_1$ and belong to $\mathcal{R}_1$. Errors arise from the blue, green, and red regions, so that for $x < \hat{x}$ the errors are due to points from class $\mathcal{C}_2$ being misclassified as $\mathcal{C}_1$ (represented by the sum of the red and green regions), and conversely for points in the region $x\ge \hat{x}$ the errors are due to points from class $\mathcal{C}_1$ being misclassified as $\mathcal{C}_2$ (represented by the blue region). As we vary the location $\hat{x}$ of the decision boundary, the combined areas of the blue and green regions remains constant, whereas the size of the red region varies. The
+> optimal choice for $\hat{x}$ is where the curves for $p(\textbf{x},\mathcal{C}_1)$ and $p(\textbf{x},\mathcal{C}_2)$ cross, corresponding to $\hat{x} = x_0$, because in this case the red region disappears. This is equivalent to the minimum misclassification rate decision rule, which assigns each value of $\textbf{x}$ to the class having the higher posterior probability $p(\mathcal{C}_k|x)$  
+
+For the more general case of $K$ classes
+$$
+\begin{align}
+	p(\textrm{correct})&=\sum_{k=1}^{K}p(\textbf{x}\in\mathcal{R_k,C_k})\\
+	&=\sum_{k=1}^{K}\int_{\mathcal{R_k}}{p(\textbf{x},\mathcal{C_k})\textrm{d}\textbf{x}}\tag{1.79}
+\end{align}
+$$
+
+* which is maximized when the regions $\mathcal{R_k}$ are chosen such that each $\textbf{x}$ is assigned to the class for which $p(\textbf{x},\mathcal{C_k})$ is largest.
+* Again consider $p(\textbf{x},\mathcal{C_k})=p(\mathcal{C_k}|\textbf{x})p(\textbf{x})$, and noting that the factor of $p(\textbf{x})$ is common to all terms, we assigned each $\textbf{x}$ to the class having the largest posterior probability $p(\mathcal{C_k}|\textbf{x})$.
+
+***
+
+
+
+### 1.5.2 Minimizing the expected loss
+
+For many applications, our objective will be more complex than simply minimizing the number of misclassifications.   
+
+* If a patient who does not have cancer is incorrectly diagnosed as having cancer, the consequences may be some patient distress plus the need for further investigations.   
+* Conversely, if a patient with cancer is diagnosed as healthy, the result may be premature death due to lack of treatment. 
+* Thus the consequences of these two types of mistake can be dramatically different. It would clearly be better to make fewer mistakes of the second kind, even if this was at the expense of making more mistakes of the first kind.  
+
+**Our goal:**
+
+To minimize the total loss incurred.  
+
+> We can formalize such issues through the introduction of a *loss function*, also called a *cost function*, which is a single, overall measure of loss incurred in taking any of the available decisions or actions.   
+
+**Loss matrix:**
+
+Suppose that, for a new value of $\textbf{x}$, the true class is $\mathcal{C}_k$ and that we assign $\textbf{x}$ to class $\mathcal{C}_k$ (where $j$ may or may not be equal to $k$). In so doing, we incur some level of loss that we denote by $\textit{L}_{kj}$, which we can view as the $k, j$ element of a loss matrix. For instance, in our cancer example, we might have a loss matrix  
+
+![image-20211117103748803](../pic/image-20211117103748803.png)
+
+The optimal solution is the one which minimizes the loss function. <u>However, the loss function depends on the true class, which is unknown</u>. For a given input $\textbf{x}$, our uncertainty in the true class is expressed through the joint probability distribution $p(\textbf{x},\mathcal{C_k})$ and so we seek instead to minimize the **average loss**, where the average is computed with respect to this distribution, which is given by  
+$$
+\mathbb{E}[L]=\sum_k\sum_j\int_{\mathcal{R_j}}{L_{kj}p(\textbf{x},\mathcal{C_k})\textrm{d}\textbf{x}}\tag{1.80}
+$$
+
+> For every correct class $k$, for every class that it can be assigned $j$, we calculate the weighted $L_{kj}$ with <u>weights of $k$</u> $p(\textbf{x},\mathcal{C_k})$ go over the region $\mathcal{R_j}$.
+
+Each $\textbf{x}$ can be assigned independently to one of the decision regions $\mathcal{R_j}$.  
+
+**Then our goal:**
+
+Our goal is to choose the regions $\mathcal{R_j}$ in order to minimize the expected loss (1.80), which implies that for each $\textbf{x}$ we should minimize $\sum_{k}{L_{kj}p(\textbf{x},\mathcal{C_k})}$.
+
+As before we use $p(\textbf{x},\mathcal{C_k})=p(\mathcal{C_k}|\textbf{x})p(\textbf{x})$ to eliminate $p(\textbf{x})$. Thus the decision rule that minimizes the expected loss is the one that assigns each new $\textbf{x}$ to the class $j$ for which quantity
+$$
+\sum_{k}{L_{kj}p(\mathcal{C_k}|\textbf{x})}\tag{1.81}
+$$
+
+
+is a minimum.
+
+***
+
+
+
+### 1.5.3 The reject option
+
+**Due to:**
+
+We have seen that classification errors arise from the regions of input space where the largest of the posterior probabilities $p(\mathcal{C_k}|\textbf{x})$ is significantly less than unity, or equivalently where the joint distributions $p(\textbf{x},\mathcal{C_k})$ have comparable values. These are the regions where we are relatively uncertain about class membership. 
+
+In some applications, it will be appropriate to avoid making decisions on the difficult cases in anticipation of a lower error rate on those examples for which a classification decision is made. This is known as the *reject option*.  
+
+**For example:**
+
+in our hypothetical medical illustration, it may be appropriate to use an automatic system to classify those X-ray images for which there is little doubt as to the correct class, <u>while leaving a human expert to classify the more ambiguous cases.</u>   
+
+![image-20211117111751809](../pic/image-20211117111751809.png)
+
+We can easily extend the reject criterion to minimize the expected loss, when a loss matrix is given, taking account of the loss incurred when a reject decision is made.
+
+***
+
+
+
+### 1.5.4 Inference and decision
+
+* In *inference stage* we use training data to learn a model for $p(\mathcal{C_k}|\textbf{x})$
+* In *decision stage* we use these posterior probabilities to make optimal class assignments.
+* An alternative possibility would be to solve both problems together and simply learn a function that maps inputs x directly into decisions. Such a function is called a *discriminant function*.
+
+In fact, we can identify three distinct approaches to solving decision problems, all of which have been used in practical applications.  
+
+1. First solve the inference problem of determining the class-conditional densities $p(\textbf{x},\mathcal{C_k})$ for each class $\mathcal{C_k}$ individually. Also separately infer the prior class probabilities $p(\mathcal{C_k})$. Then use the Bayes' theorem in the form
+   $$
+   p(\mathcal{C_k}|\textbf{x})=\frac{p(\textbf{x}|\mathcal{C_k})p(\mathcal{C_k})}{p(\textbf{x})}\tag{1.82}
+   $$
+   to find the posterior class probabilities $p(\mathcal{C_k}|\textbf{x})$. As usual, the denominator in Bayes’ theorem can be found in terms of the quantities appearing in the numerator, be
+   $$
+   p(\textbf{x})=\sum_{k}{p(\textbf{x}|\mathcal{C_k})p(\mathcal{C_k})}\tag{1.83}
+   $$
+   Equivalently, we can model the joint distribution $p(\textbf{x},\mathcal{C_k})$ directly and then normalize to obtain the posterior probabilities. Having found the posterior
+   probabilities, we use decision theory to determine class membership for each
+   new input $\textbf{x}$​. ==Approaches that explicitly or implicitly model the distribution of inputs as well as outputs are known as *generative models*, because by sampling from them it is possible to generate synthetic data points in the input space==.
+
+2. First solve the inference problem of determining the posterior class probabilities $p(\mathcal{C_k}|\textbf{x})$. and then subsequently use decision theory to assign each new $\textbf{x}$ to one of the classes. ==Approaches that model the posterior probabilities directly are called *discriminative models*==. 
+
+3. Find a function $f(\textbf{x})$, called a discriminant function, which maps each input $\textbf{x}$ directly onto a class label. For instance, in the case of two-class problems, $f(\cdot)$ might be binary valued and such that $f=0$ represents class $\mathcal{C}_1$ and $f=1$ represents class $\mathcal{C}_2$. In this case, probabilities play no role. 
+
+Approach 1: 
+
+* Advantage: Most demanding because it involves finding the joint distribution over both $\textbf{x}$ and $\mathcal{C}_k$. It also allows the marginal density of data $p(\textbf{x})$ to be determined from (1.83). <u>Useful for detecting new data points that have low probability under the model and for which the predictions may  be of low accuracy, which is known as *outlier detection* or *novelty detection*.</u>  
+* Disadvantage: Wasteful of computational resources, and excessively demanding of data. Posterior probabilities can be obtained directly through approach 2.
+
