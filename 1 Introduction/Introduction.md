@@ -894,3 +894,80 @@ Approach 1:
 * Advantage: Most demanding because it involves finding the joint distribution over both $\textbf{x}$ and $\mathcal{C}_k$. It also allows the marginal density of data $p(\textbf{x})$ to be determined from (1.83). <u>Useful for detecting new data points that have low probability under the model and for which the predictions may  be of low accuracy, which is known as *outlier detection* or *novelty detection*.</u>  
 * Disadvantage: Wasteful of computational resources, and excessively demanding of data. Posterior probabilities can be obtained directly through approach 2.
 
+Approach 3:
+
+* Advantage: Simpler.
+* Disadvantage: no access to the posterior probabilities $p(\mathcal{C_k}|\textbf{x})$. We need to compute the posterior probabilities for
+  * **Minimizing risk**. Revise the minimum risk decision criterion by modifying (1.81) appropriately. If we have only a discriminant function, then any change to the loss matrix would require that we return to the training data and solve the classification problem afresh.  
+  * **Reject option**. Posterior probabilities allow us to determine a rejection criterion.
+  * **Compensating for class priors**. <u>For unbalanced dataset</u>, we have selected equal numbers of examples from each of the classes would allow us to find a more accurate model. However, we then have to compensate for the effects of our modifications to the training data. From Bayes’ theorem (1.82), we see that <u>the posterior probabilities are proportional to the prior probabilities</u>, which we can interpret as the fractions of points in each class. We can therefore simply <u>take the posterior probabilities obtained from our artificially balanced data set and first divide by the class fractions in that data set and then multiply by the class fractions in the population to which we wish to apply the model.</u>  
+  * **Combining models**. Rather than combine all of this heterogeneous information into one huge input space, it may be more effective to build one system to interpret the X-ray images and a different one to interpret the blood data.  
+
+***
+
+
+
+### 1.5.5 Loss functions for regresstions
+
+The decision stage consists of choosing a specific estimate $y(\textbf{x})$ of the value of $t$ for each input $\textbf{x}$.
+
+The average, or expected, loss is then given by
+$$
+\mathbb{E}[L]=\iint{L(t,y(\textbf{x}))p(\textbf{x},t)\textrm{d}\textbf{x}\textrm{d}t}\tag{1.86}
+$$
+A common choice of loss function in regression problems is the squared loss
+$$
+\mathbb{E}[L]=\iint{\{y(\textbf{x})-t\}^2p(\textbf{x},t)\textrm{d}\textbf{x}\textrm{d}t}\tag{1.87}
+$$
+**Our goal:**
+
+Choose $y(\textbf{x})$ so as to minimize $\mathbb{E}[L]$.
+
+**Assume a completely flexible function** $y(\textbf{x})$, we can do this formally using the calculus of variations to give
+$$
+\frac{\delta\mathbb{E}[L]}{\delta y(\textbf{x})}=2\int\{y(\textbf{x})-t\}p(\textbf{x},t)\textrm{d}t=0\tag{1.88}
+$$
+Solving for $y(\textbf{x})$
+$$
+\begin{align}
+	2\int y(\textbf{x})p(\textbf{x},t)\textrm{d}t&=2\int tp(\textbf{x},t)\textrm{d}t\\
+	y(\textbf{x})\int p(\textbf{x},t)\textrm{d}t&=\int tp(\textbf{x},t)\textrm{d}t\\
+	y(\textbf{x})p(\textbf{x})&=\int tp(\textbf{x},t)\textrm{d}t\\
+	y(\textbf{x})&=\frac{\int tp(\textbf{x},t)\textrm{d}t}{p(\textbf{x})}=\int tp(t|\textbf{x})\textrm{d}t=\mathbb{E}_t[t|\textbf{x}]\tag{1.89}
+\end{align}
+$$
+which is the conditional average of $t$ conditioned on $\textbf{x}$ and is known as the *regression function*.
+
+![image-20211117143900880](../pic/image-20211117143900880.png)
+
+**A slightly different way:**
+
+Armed with the knowledge that the optimal solution is the conditional expectation, we can expand the square term as follows  
+$$
+\begin{align}
+	\{y(\textbf{x})-t\}^2&=\{y(\textbf{x})-\mathbb{E}[t|\textbf{x}]+\mathbb{E}[t|\textbf{x}]-t\}^2\\
+	&=\{y(\textbf{x})-\mathbb{E}[t|\textbf{x}]\}^2+2\{y(\textbf{x})-\mathbb{E}[t|\textbf{x}]\}\{\mathbb{E}[t|\textbf{x}]-t\}+\{\mathbb{E}[t|\textbf{x}]-t\}^2
+\end{align}
+$$
+Substituting into the loss function and performing the integral over $t$, we see that the cross-term vanishes 
+
+> why the cross-term vanished???
+
+and we obtain an expression for the loss function in the form
+$$
+\mathbb{E}[L]=\int\{y(\textbf{x})-\mathbb{E}[t|\textbf{x}]\}^2p(\textbf{x})\textrm{d}\textbf{x}+\int \{\mathbb{E}[t|\textbf{x}]-t\}^2p(\textbf{x})\textrm{d}\textbf{x}\tag{1.90}
+$$
+
+* The function $y(\textbf{x})$ we seek to determine enters only in the first term, which will be minimized when  $y(\textbf{x})$ is equal to $\mathbb{E}[t|\textbf{x}]$, in which case this term will vanish.
+* The second term is the ==variance== of the distribution of $t$, averaged over $\textbf{x}$. It represents the <u>intrinsic variability of the target data and can be regarded as noise.</u>  Because it is independent of $y(\textbf{x})$, it represents the <u>irreducible minimum value of the loss function.</u>  
+
+Indeed, we can identify three distinct approaches to solving regression problems
+
+1. First solve the inference problem of determining the joint density $p(\textbf{x}, t)$. Then normalize to find the conditional density $p(t|\textbf{x})$, and finally marginalize to find the conditional mean given by (1.89).  
+2. First solve the inference problem of determining the conditional density $p(t|\textbf{x})$, and then subsequently marginalize to find the conditional mean given by (1.89).  
+3. Find a regression function $y(\textbf{x})$ directly from the training data.
+
+The squared loss is not the only possible choice of loss function for regression. Such as *Minkowski* loss, whose expection is given by
+$$
+\mathbb{E}[L_q]=\iint|y(\textbf{x})-t|^qp(\textbf{x},t)\textrm{d}\textbf{x}\textrm{d}t\tag{1.91}
+$$
