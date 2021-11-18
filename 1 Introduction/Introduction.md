@@ -954,7 +954,7 @@ $$
 $$
 Substituting into the loss function and performing the integral over $t$, we see that the cross-term vanishes 
 
-> why the cross-term vanished???
+==why the cross-term vanished???==
 
 and we obtain an expression for the loss function in the form
 $$
