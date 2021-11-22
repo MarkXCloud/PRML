@@ -235,3 +235,85 @@ $$
 $$
 
 * $\textbf{m}=(m_1,_\cdots,m_K)^\textrm{T}$
+* We can interpret the parameters $\alpha_k$ of the Dirichlet prior as an effective number of observations of $x_k=1$
+
+***
+
+
+
+## 2.3 The Gaussian Distribution
+
+Case of a single variable $x$
+$$
+\mathcal{N}(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{1/2}}\exp{\{-\frac{1}{2\sigma^2}(x-\mu)^2 \}}\tag{2.42}
+$$
+Case of $D$-dimensional vector $\textbf{x}$
+$$
+\mathcal{N}(\textbf{x}|\boldsymbol{\mu},\boldsymbol{\Sigma})=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \}}\tag{2.43}
+$$
+
+#### The geometrical form of the Gaussian distribution  
+
+The functional dependence of the Gaussian on $\textbf{x}$ is through the quadratic form  
+$$
+\Delta^2=(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu})\tag{2.44}
+$$
+
+* $\Delta$ is called the *Mahalanobis distance* from $\boldsymbol{\mu}$ to $\textbf{x}$
+* Reduces to Euclidean distance when $\Sigma$ is the identity matrix
+* This quadratic form is constant, the Gaussian is constant.
+
+Consider the eigenvector equation for the covariance matrix
+$$
+\boldsymbol{\Sigma}\textbf{u}_i=\lambda_i\textbf{u}_i\tag{2.45}
+$$
+So we can express
+$$
+\boldsymbol{\Sigma}=\sum_{i=1}^D\lambda_i\textbf{u}_i\textbf{u}_i^{\textrm{T}}\tag{2.48}
+$$
+The quadratic form becomes
+$$
+\Delta^2=\sum_{i=1}^D\frac{y_i^2}{\lambda_i}\tag{2.50}
+$$
+where
+$$
+y_i=\textbf{u}_i^{\textrm{T}}(\textbf{x}-\boldsymbol{\mu})\tag{2.51}
+$$
+We can interpret ${y_i}$ as a new coordinate system defined by the orthonormal vectors $\textbf{u}_i$ that are shifted and rotated with respect to the original $x_i$ coordinates.   
+$$
+\textbf{y}=\textbf{U}(\textbf{x}-\boldsymbol{\mu})\tag{2.52}
+$$
+where $\textbf{U}$ is a matrix whose rows are given by $\textbf{u}_i^{\textrm{T}}$. And $\textbf{U}\textbf{U}^\textrm{T}=\textbf{I}$.
+
+If all of the eigenvalues $λ_i$ are positive, then these surfaces represent ellipsoids, with their centres at $\boldsymbol{\mu}$ and their axes oriented along $\textbf{u}_i$, and with scaling factors in the directions of the axes given by $λ_i^{1/2}$, as illustrated in Figure 2.7.  
+
+![image-20211122193634414](../pic/image-20211122193634414.png)
+
+In going from the $\textbf{x}$ to the $\textbf{y}$ coordinate system, we have a Jacobian matrix $\textbf{J}$ with elements given by
+$$
+J_{ij}=\frac{\partial x_i}{\partial y_j}=U_{ji}\tag{2.53}
+$$
+We see that the square of the determinant of the Jacobian matrix is
+$$
+|\textbf{J}|^2=|\textbf{U}^\textrm{T}|^2=|\textbf{U}^\textrm{T}||\textbf{U}|=|\textbf{U}^\textrm{T}\textbf{U}|=|\textbf{I}|=1\tag{2.54}
+$$
+Also
+$$
+|\boldsymbol{\Sigma}|^{1/2}=\prod_{j=1}^D\lambda_j^{1/2}\tag{2.55}
+$$
+Thus in the $y_i$ coordinate system, the Gaussian distribution takes the form
+$$
+p(\textbf{y})=p(\textbf{x})|\textbf{J}|=\prod_{j=1}^D\frac{1}{(2\pi\lambda_i)^{1/2}}\exp{\{-\frac{y_i^2}{2\lambda_j}\}}\tag{2.56}
+$$
+
+* which is the product of $D$ independent univariate Gaussian distributions.   
+
+#### Have a look on $\boldsymbol{\mu}$ and $\boldsymbol{\Sigma}$
+
+$$
+\begin{align}
+	\mathbb{E}[\textbf{x}]&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \}}\textbf{x}\textrm{d}\textbf{x}\\
+	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \}}(\textbf{z}+\boldsymbol{\mu})\textrm{d}\textbf{z}\\tag{2.58}
+\end{align}
+$$
+
