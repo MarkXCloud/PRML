@@ -103,3 +103,135 @@ $$
 4. Incorporation of an additional observation of $x = 1$ simply corresponds to incrementing the value of $a$ by $1$, whereas for an observation of $x = 0$ we increment $b$ by $1$.  
 
 ![image-20211118195608320](../pic/image-20211118195608320.png)
+
+The evaluation of the predictive distribution of $x$ given $\mathcal{D}$
+$$
+p(x=1|\mathcal{D})=\int_{0}^{1}p(x=1|\mu)p(\mu|\mathcal{D})\textrm{d}\mu=\int_{0}^{1}\mu p(\mu|\mathcal{D})\textrm{d}\mu=\mathbb{E}[\mu|\mathcal{D}]\tag{2.19}
+$$
+Using the (2.18) for the posterior distribution $p(\mu|\mathcal{D})$, together with (2.15) for the mean of the beta distribution, we obtain
+$$
+p(x=1|\mathcal{D})=\frac{m+a}{m+a+l+b}\tag{2.20}
+$$
+
+> The total fraction of observations (both real observations and fictitious prior observations) that correspond to $x = 1$ 
+
+Whether as we observe more and more data, the uncertainty represented by the posterior distribution will steadily decrease?
+
+Consider a general Bayesian inference for parameter $\theta$ for which we observed a data set $\mathcal{D}$, described by the joint distribution $p(\theta,\mathcal{D})$.The following result
+$$
+\mathbb{E}_\boldsymbol{\theta}[\boldsymbol{\theta}]=\mathbb{E}_\mathcal{D}[\mathbb{E}_\boldsymbol{\boldsymbol{\theta}}[\boldsymbol{\theta}|\mathcal{D}]]\tag{2.21}
+$$
+where
+$$
+\begin{align}
+	\mathbb{E}_\boldsymbol{\theta}[\boldsymbol{\theta}]&\equiv \int p(\boldsymbol{\theta})\boldsymbol{\theta}\textrm{d}\boldsymbol{\theta}\tag{2.22}\\
+	\mathbb{E}_\mathcal{D}[\mathbb{E}_\boldsymbol{\theta}[\boldsymbol{\theta}|\mathcal{D}]]&\equiv\int\{\int\boldsymbol{\theta}_p(\boldsymbol{\theta}|\mathcal{D})\textrm{d}\boldsymbol{\theta} \}p(\mathcal{D})\textrm{d}\mathcal{D}\tag{2.23}
+\end{align}
+$$
+says that the posterior mean of $\boldsymbol{\theta}$, averaged over the distribution generating the data, is equal to the prior mean of $\boldsymbol{\theta}$. Similarly,
+$$
+\textrm{var}_\boldsymbol{\theta}[\boldsymbol{\theta}]=\mathbb{E}_\mathcal{D}[\textrm{var}_\boldsymbol{\theta}[\boldsymbol{\theta}|\mathcal{D}]]+\textrm{var}_\mathcal{D}[\mathbb{E}_\boldsymbol{\theta}[\boldsymbol{\theta}|\mathcal{D}]]\tag{2.24}
+$$
+
+* The term on the left-hand side of (2.24) is the prior variance of $\boldsymbol{\theta}$
+* On the right-hand side, the first term is the average posterior variance of $\boldsymbol{\theta}$, and the second term measures the variance in the posterior mean of $\boldsymbol{\theta}$.
+* Note, however, that this result only holds on average.
+
+***
+
+## 2.2 Multinomial Variables
+
+**We consider:**
+
+$1$-of-$K$ scheme in which the variable is represented by a $K$-dimensional vector $\textbf{x}$ ==in which one of the elements $x_k$ equals $1$, and all remaining elements equal $0$.==
+
+Take $K=6$ and $x_3=1$ as an example:
+$$
+\textbf{x}=(0,0,1,0,0,0)^\textrm{T}\tag{2.25}
+$$
+We denote the probability of $x_k=1$ by the parameter $\mu_k$, then the distribution of $\textbf{x}$:
+$$
+p(\textbf{x}|\boldsymbol{\mu})=\prod_{k=1}^{K}\mu_k^{x_k}\tag{2.26}
+$$
+where $\boldsymbol{\mu}=(\mu_1,_\cdots,\mu_K)^\textrm{T}$ satisfy $\mu_k\ge0$ and $\sum_k\mu_k=1$
+$$
+\sum_\textbf{x}p(\textbf{x}|\boldsymbol{\mu})=\sum_{k=1}^{K}\mu_k=1\tag{2.27}
+$$
+and that
+$$
+\mathbb{E}[\textbf{x}|\boldsymbol{\mu}]=\sum_\textbf{x}p(\textbf{x}|\boldsymbol{\mu})\textbf{x}=\boldsymbol{\mu}\tag{2.28}
+$$
+The corresponding likelihood function takes the form  
+$$
+p(\mathcal{D}|\boldsymbol{\mu})=\prod_{n=1}^N\prod_{k=1}^K\mu_k^{x_{nk}}=\prod_{k=1}^K\mu_k^{(\sum_nx_{nk})}=\prod_{k=1}^K\mu_k^{m_k}\tag{2.29}
+$$
+The likelihood function depends on the N data points only through the $K$ quantities
+$$
+m_k=\sum_nx_{nk}\tag{2.30}
+$$
+which represent the number of observations of $x_k=1$. These are called the *sufficient statistics* for this distribution.
+
+Solve $\boldsymbol{\mu}$ using Lagrange multiplier $\lambda$
+$$
+\sum_{k=1}^Km_k\ln\mu_k+\lambda(\sum_{k=1}^K\mu_k-1)\tag{2.31}
+$$
+Derivative with respect to $\mu_k$ to zero, we obtain
+$$
+\mu_k=-m_k/\lambda\tag{2.32}
+$$
+Solve the $lambda$ give $\lambda=-N$, thus
+$$
+\mu_k^{ML}=\frac{m_k}{N}\tag{2.33}
+$$
+which is the fraction of the $N$ observations for which $x_k = 1$.  
+
+#### Multinomial distribution
+
+Consider the joint distribution of the quantities $m_1,_\cdots,m_K$, conditioned on $\boldsymbol{\mu}$ on $N$ observations. From (2.29) this takes the form
+$$
+\textrm{Mult}(m_1,m_2,_\cdots,m_K|\boldsymbol{\mu},N)=\binom{N}{m_1m_2{_\cdots}m_K}\prod_{k=1}^{K}\mu_k^{m_k}\tag{2.34}
+$$
+which is known as *multinomial distribution*.
+
+
+
+### 2.2.1 The Dirichlet distribution
+
+By inspection of the form of the multinomial distribution, we see that the conjugate prior is given by  
+$$
+p(\boldsymbol{\mu}|\boldsymbol{\alpha})\propto\prod_{k=1}^K\mu_k^{\alpha_k-1}\tag{2.37}
+$$
+
+* $\boldsymbol{\alpha}$ denotes $(\alpha_1,_\cdots,\alpha_K)^{\textrm{T}}$
+
+Note that, because of the summation constraint, the distribution over the space of the {µk} is confined to a *simplex* of dimensionality K - 1, as illustrated for K = 3 in Figure 2.4.  
+
+![image-20211122172339243](../pic/image-20211122172339243.png)
+
+#### Dirichlet distribution
+
+The normalized form for this distribution is by  
+$$
+\textrm{Dir}(\boldsymbol{\mu}|\boldsymbol{\alpha})=\frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_K)}\prod_{k=1}^K\mu_k^{\alpha_k-1}\tag{2.38}
+$$
+while
+$$
+\alpha_0=\sum_{k=1}^K\alpha_k\tag{2.39}
+$$
+![image-20211122172849527](../pic/image-20211122172849527.png)
+
+Multiplying the prior (2.38) by the likelihood function (2.34), we obtain the posterior distribution for the parameters ${µ_k}$ in the form  
+$$
+p(\boldsymbol{\mu}|\mathcal{D},\boldsymbol{\alpha})\propto p(\mathcal{D}|\boldsymbol{\mu})p(\boldsymbol{\mu}|\boldsymbol{\alpha})\propto \prod_{k=1}^K\mu_k^{\alpha_k+m_k-1}\tag{2.40}
+$$
+We see that the posterior distribution again takes the form of a Dirichlet distribution, confirming that the Dirichlet is indeed a conjugate prior for the multinomial.   
+
+Determine the normalization coefficient by comparison with (2.38) so that  
+$$
+\begin{align}
+	p(\boldsymbol{\mu}|\mathcal{D},\boldsymbol{\alpha})&=\textrm{Dir}(\boldsymbol{\mu}|\boldsymbol{\alpha}+\textbf{m})\\
+	&=\frac{\Gamma(\alpha_0+N)}{\Gamma(\alpha_1+m_1)\cdots\Gamma(\alpha_K+m_K)}\prod_{k=1}^K\mu_k^{\alpha_k+m_k-1}\tag{2.41}
+\end{align}
+$$
+
+* $\textbf{m}=(m_1,_\cdots,m_K)^\textrm{T}$
