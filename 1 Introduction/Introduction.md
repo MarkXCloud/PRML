@@ -354,7 +354,7 @@ $$
 For two random variables $x$ and $y$, the *covariance* is defined by
 $$
 \begin{align}
-\textrm{cov}[x,y]&=\mathbb{E}_{x,y}[\{x-\mathbb{E}[x]\}\{y-\mathbb{E}[y]\}]
+\textrm{cov}[x,y]&=\mathbb{E}_{x,y}\big[\{x-\mathbb{E}[x]\}\{y-\mathbb{E}[y]\}\big]
 \\
 &=\mathbb{E}_{x,y}[xy]-\mathbb{E}[x]\mathbb{E}[y]\tag{1.41}
 \end{align}
@@ -364,7 +364,7 @@ If x and y are independent, then their covariance vanishes.
 In the case of two vectors of random variables $\textbf{x}$ and $\textbf{y}$, the covariance is a matrix
 $$
 \begin{align}
-	\textrm{cov}[\textbf{x},\textbf{y}]&=\mathbb{E}_{\textbf{x},\textbf{y}}[\{\textbf{x}-\mathbb{E}[\textbf{x}]\}\{\textbf{y}^T-\mathbb{E}[\textbf{y}^T]\}]\\
+	\textrm{cov}[\textbf{x},\textbf{y}]&=\mathbb{E}_{\textbf{x},\textbf{y}}\big[\{\textbf{x}-\mathbb{E}[\textbf{x}]\}\{\textbf{y}^T-\mathbb{E}[\textbf{y}^T]\}\big]\\
 	&=\mathbb{E}_{\textbf{x},\textbf{y}}[{\textbf{x}\textbf{y}^T}]-\mathbb{E}[\textbf{x}]\mathbb{E}[\textbf{y}^T]\tag{1.42}
 \end{align}
 $$
@@ -413,7 +413,7 @@ One of the most important probability distributions for continues variables: *no
 For the case of a single real-valued variable $x$, the Gaussian distribution is defined
 by
 $$
-\mathcal{N}(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{\frac{1}{2}}}\exp{\{-\frac{1}{2\sigma^2}(x-\mu)^2\}}\tag{1.46}
+\mathcal{N}(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{\frac{1}{2}}}\exp{\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}}\tag{1.46}
 $$
 
 * $\mu$ is called the *mean*
@@ -449,7 +449,7 @@ The maximum of a distribution is known as its **mode**. For a Gaussian, the mode
 
 The Gaussian distribution defined over a $\mathcal{D}$-dimensional vector $\textbf{x}$ of continuous variables is given by
 $$
-\mathcal{N}(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\mu)^\textup{T}\Sigma^{-1}(\textbf{x}-\mu)\}}\tag{1.52}
+\mathcal{N}(\textbf{x}|\mu,\Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp{\left\{-\frac{1}{2}(\textbf{x}-\mu)^\textup{T}\Sigma^{-1}(\textbf{x}-\mu)\right\}}\tag{1.52}
 $$
 
 * The $D$-dimensional vector $\mu$ is  called the mean
@@ -488,7 +488,7 @@ An example of a phenomenon called *bias* and is related to the problem of over-f
 $$
 \begin{align}
 	\mathbb{E}[\mu_{ML}] &=\mu\tag{1.57}\\
-	\mathbb{E}[σ^2_{ML}] &=(\frac{N-1}{N})\sigma^2\tag{1.58}
+	\mathbb{E}[σ^2_{ML}] &=\left(\frac{N-1}{N}\right)\sigma^2\tag{1.58}
 \end{align}
 $$
 so that on average the maximum likelihood estimate will obtain the correct mean but will underestimate the true variance by a factor $(N-1)/N$. The intuition behind this result is given by Figure below
@@ -548,7 +548,7 @@ p(t|x,\textbf{w}_{ML},\beta_{ML})=\mathcal{N}(t|y(x,\textbf{w}_{ML}),\beta_{ML}^
 $$
 Now let us take a step towards a more Bayesian approach and introduce a prior distribution over the polynomial coefficients $\textbf{w}$. For simplicity, let us consider a Gaussian distribution of the form
 $$
-p(\textbf{w}|\alpha)=\mathcal{N}(\textbf{w}|\textbf{0},\alpha^{-1}\textbf{I})=(\frac{\alpha}{2\pi})^{(M+1)/2}\exp{\{-\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}\}}\tag{1.65}
+p(\textbf{w}|\alpha)=\mathcal{N}(\textbf{w}|\textbf{0},\alpha^{-1}\textbf{I})=(\frac{\alpha}{2\pi})^{(M+1)/2}\exp{\left\{-\frac{\alpha}{2}\textbf{w}^\textup{T}\textbf{w}\right\}}\tag{1.65}
 $$
 
 * $\alpha$ is the precision of the distribution.
@@ -1042,7 +1042,7 @@ $$
 	\textrm{H}&=\ln{N}-1-\frac{1}{N}\sum_i{n_i\ln{n_i}}+1 \\
 	\textrm{H}&=\frac{1}{N}\sum_in_i\ln{N}-\frac{1}{N}\sum_i{n_i\ln{n_i}} \\
 	\textrm{H}&=\frac{1}{N}\sum_i\ln{\frac{N^{n_i}}{n_i^{n_i}}} \\
-	\textrm{H}&=-\lim_{N\rightarrow\infty}{\sum_i(\frac{n_i}{N})\ln{(\frac{n_i}{N})}}=-\sum_i{p_i\ln{p_i}}\tag{1.97}
+	\textrm{H}&=-\lim_{N\rightarrow\infty}{\sum_i\left(\frac{n_i}{N}\right)\ln{\left(\frac{n_i}{N}\right)}}=-\sum_i{p_i\ln{p_i}}\tag{1.97}
 \end{align}
 $$
 In physics terminology, the specific arrangements of objects in the bins is called a *microstate*, and the overall distribution of occupation numbers, expressed through the ratios $n_i/N$, is called a *macrostate*. The multiplicity W is also known as the weight of the *macrostate*.  
@@ -1063,7 +1063,7 @@ $$
 
 Using a Lagrange multiplier:
 $$
-\tilde{\textrm{H}}=-\sum_{i}{p(x_i)\ln{p(x_i)}+\lambda(\sum_i{p(x_i)-1})}\tag{1.99}
+\tilde{\textrm{H}}=-\sum_{i}{p(x_i)\ln{p(x_i)}+\lambda\left(\sum_i{p(x_i)-1}\right)}\tag{1.99}
 $$
 
 * From which we find that all of the $p(x_i)$ are equal and are given by $p(x_i)=1/M$ where $M$ is the total states of $x_i$.
@@ -1109,8 +1109,8 @@ $$
 $$
 Using Lagrange multipliers:
 $$
--\int_{-\infty}^{\infty}p(x)\ln{p(x)}\textrm{d}x+\lambda_1(\int_{-\infty}^{\infty}p(x)\textrm{d}x-1)\\
-+\lambda_2(\int_{-\infty}^{\infty}xp(x)\textrm{d}x - \mu)+\lambda_3(\int_{-\infty}^{\infty}(x-\mu)^2p(x)\textrm{d}x - \sigma^2)
+-\int_{-\infty}^{\infty}p(x)\ln{p(x)}\textrm{d}x+\lambda_1\left(\int_{-\infty}^{\infty}p(x)\textrm{d}x-1\right)\\
++\lambda_2\left(\int_{-\infty}^{\infty}xp(x)\textrm{d}x - \mu\right)+\lambda_3\left(\int_{-\infty}^{\infty}(x-\mu)^2p(x)\textrm{d}x - \sigma^2 \right)
 $$
 Using the calculus of variations, we set the derivative of this functional to zero giving
 $$
@@ -1118,7 +1118,7 @@ p(x)=\exp\{-1+\lambda_1+\lambda_2x+\lambda_3(x-\mu)^2 \}\tag{1.108}
 $$
 Back substitution,  we get
 $$
-p(x)=\frac{1}{(2\pi\sigma^2)^{1/2}}\ \exp\{-\frac{(x-\mu)^2}{2\sigma^2} \}\tag{1.109}
+p(x)=\frac{1}{(2\pi\sigma^2)^{1/2}}\ \exp\left\{-\frac{(x-\mu)^2}{2\sigma^2} \right\}\tag{1.109}
 $$
 ==and so the distribution that maximizes the differential entropy is the Gaussian.==
 
@@ -1159,8 +1159,8 @@ Some unknown distribution $p(\textbf{x})$, we have modeled this using an approxi
 then the average *additional* amount of information (in nats) required to specify the value of $\textbf{x}$ as a result of using $q(\textbf{x})$ instead of the true distribution $p(\textbf{x})$ is given by
 $$
 \begin{align}
-	\textrm{KL}(p||q) &= -\int p(\textbf{x})\ln q(\textbf{x})\textrm{d}\textbf{x}-(-\int p(\textbf{x})\ln p(\textbf{x})\textrm{d}\textbf{x})\\
-	&= -\int p(\textbf{x})\ln \{\frac{q(\textbf{x})}{p(\textbf{x})}\}\textrm{d}\textbf{x}\tag{1.113}
+	\textrm{KL}(p||q) &= -\int p(\textbf{x})\ln q(\textbf{x})\textrm{d}\textbf{x}-\left(-\int p(\textbf{x})\ln p(\textbf{x})\textrm{d}\textbf{x}\right)\\
+	&= -\int p(\textbf{x})\ln \left\{\frac{q(\textbf{x})}{p(\textbf{x})}\right\}\textrm{d}\textbf{x}\tag{1.113}
 \end{align}
 $$
 This is known as the *relative entropy* or *Kullback-Leibler divergence*, or *KL divergence* (Kullback and Leibler, 1951), between the distributions $p(\textbf{x})$ and $q(\textbf{x})$.
@@ -1170,7 +1170,7 @@ This is known as the *relative entropy* or *Kullback-Leibler divergence*, or *KL
 
 To prove the property  of the second one, we use
 $$
-f(\sum_{i=1}^M\lambda_ix_i)\le\sum_{i=1}^{M}\lambda_if(x_i)\tag{1.115}
+f\left(\sum_{i=1}^M\lambda_ix_i\right)\le\sum_{i=1}^{M}\lambda_if(x_i)\tag{1.115}
 $$
 for a convex function $f(x)$ where $\lambda_i\ge0$ and $\sum_i\lambda_i=1$. It is also known as *Jensen's inequality*. If we interpret the $λ_i$ as the probability distribution over a discrete variable $x$ taking the values $\{x_i\}$, then (1.115) can be written
 $$
@@ -1178,11 +1178,11 @@ f(\mathbb{E}[x])\le\mathbb{E}[f(x)]\tag{1.116}
 $$
 For continuous variables:
 $$
-f(\int \textbf{x}p(\textbf{x})\textrm{d}\textbf{x})\le\int f(\textbf{x})p(\textbf{x})\textrm{d}\textbf{x}\tag{1.117}
+f\left(\int \textbf{x}p(\textbf{x})\textrm{d}\textbf{x}\right)\le\int f(\textbf{x})p(\textbf{x})\textrm{d}\textbf{x}\tag{1.117}
 $$
 Apply to (1.113):
 $$
-\textrm{KL}(p||q) =-\int p(\textbf{x})\ln \{\frac{q(\textbf{x})}{p(\textbf{x})}\}\textrm{d}\textbf{x}\ge-\ln\int q(\textbf{x})\textrm{d}\textbf{x}=0\tag{1.118}
+\textrm{KL}(p||q) =-\int p(\textbf{x})\ln \left\{\frac{q(\textbf{x})}{p(\textbf{x})}\right\}\textrm{d}\textbf{x}\ge-\ln\int q(\textbf{x})\textrm{d}\textbf{x}=0\tag{1.118}
 $$
 **How we evaluate our generated model using KL-divergence:**
 

@@ -125,7 +125,7 @@ where
 $$
 \begin{align}
 	\mathbb{E}_\boldsymbol{\theta}[\boldsymbol{\theta}]&\equiv \int p(\boldsymbol{\theta})\boldsymbol{\theta}\textrm{d}\boldsymbol{\theta}\tag{2.22}\\
-	\mathbb{E}_\mathcal{D}[\mathbb{E}_\boldsymbol{\theta}[\boldsymbol{\theta}|\mathcal{D}]]&\equiv\int\{\int\boldsymbol{\theta}_p(\boldsymbol{\theta}|\mathcal{D})\textrm{d}\boldsymbol{\theta} \}p(\mathcal{D})\textrm{d}\mathcal{D}\tag{2.23}
+	\mathbb{E}_\mathcal{D}[\mathbb{E}_\boldsymbol{\theta}[\boldsymbol{\theta}|\mathcal{D}]]&\equiv\int\left\{\int\boldsymbol{\theta}_p(\boldsymbol{\theta}|\mathcal{D})\textrm{d}\boldsymbol{\theta} \right\}p(\mathcal{D})\textrm{d}\mathcal{D}\tag{2.23}
 \end{align}
 $$
 says that the posterior mean of $\boldsymbol{\theta}$, averaged over the distribution generating the data, is equal to the prior mean of $\boldsymbol{\theta}$. Similarly,
@@ -173,7 +173,7 @@ which represent the number of observations of $x_k=1$. These are called the *suf
 
 Solve $\boldsymbol{\mu}$ using Lagrange multiplier $\lambda$
 $$
-\sum_{k=1}^Km_k\ln\mu_k+\lambda(\sum_{k=1}^K\mu_k-1)\tag{2.31}
+\sum_{k=1}^Km_k\ln\mu_k+\lambda\left(\sum_{k=1}^K\mu_k-1\right)\tag{2.31}
 $$
 Derivative with respect to $\mu_k$ to zero, we obtain
 $$
@@ -245,11 +245,11 @@ $$
 
 Case of a single variable $x$
 $$
-\mathcal{N}(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{1/2}}\exp{\{-\frac{1}{2\sigma^2}(x-\mu)^2 \}}\tag{2.42}
+\mathcal{N}(x|\mu,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{1/2}}\exp{\left\{-\frac{1}{2\sigma^2}(x-\mu)^2 \right\}}\tag{2.42}
 $$
 Case of $D$-dimensional vector $\textbf{x}$
 $$
-\mathcal{N}(\textbf{x}|\boldsymbol{\mu},\boldsymbol{\Sigma})=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\exp{\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \}}\tag{2.43}
+\mathcal{N}(\textbf{x}|\boldsymbol{\mu},\boldsymbol{\Sigma})=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\exp{\left\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \right\}}\tag{2.43}
 $$
 
 #### The geometrical form of the Gaussian distribution  
@@ -303,7 +303,7 @@ $$
 $$
 Thus in the $y_i$ coordinate system, the Gaussian distribution takes the form
 $$
-p(\textbf{y})=p(\textbf{x})|\textbf{J}|=\prod_{j=1}^D\frac{1}{(2\pi\lambda_i)^{1/2}}\exp{\{-\frac{y_i^2}{2\lambda_j}\}}\tag{2.56}
+p(\textbf{y})=p(\textbf{x})|\textbf{J}|=\prod_{j=1}^D\frac{1}{(2\pi\lambda_i)^{1/2}}\exp{\left\{-\frac{y_i^2}{2\lambda_j}\right\}}\tag{2.56}
 $$
 
 * which is the product of $D$ independent univariate Gaussian distributions.   
@@ -312,8 +312,8 @@ $$
 
 $$
 \begin{align}
-	\mathbb{E}[\textbf{x}]&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \}}\textbf{x}\textrm{d}\textbf{x}\\
-	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \}}(\textbf{z}+\boldsymbol{\mu})\textrm{d}\textbf{z}\tag{2.58}
+	\mathbb{E}[\textbf{x}]&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\left\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \right\}}\textbf{x}\textrm{d}\textbf{x}\\
+	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\left\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \right\}}(\textbf{z}+\boldsymbol{\mu})\textrm{d}\textbf{z}\tag{2.58}
 \end{align}
 $$
 
@@ -331,8 +331,8 @@ We now consider second order moments of the Gaussian.
 This matrix can be written as
 $$
 \begin{align}
-	\mathbb{E}[\textbf{x}\textbf{x}^\textrm{T}]&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \}}\textbf{x}\textbf{x}^\textrm{T}\textrm{d}\textbf{x}\\
-	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \}}(\textbf{z}+\boldsymbol{\mu})(\textbf{z}+\boldsymbol{\mu})^\textrm{T}\textrm{d}\textbf{z}
+	\mathbb{E}[\textbf{x}\textbf{x}^\textrm{T}]&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\left\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \right\}}\textbf{x}\textbf{x}^\textrm{T}\textrm{d}\textbf{x}\\
+	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\left\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \right\}}(\textbf{z}+\boldsymbol{\mu})(\textbf{z}+\boldsymbol{\mu})^\textrm{T}\textrm{d}\textbf{z}
 \end{align}
 $$
 
@@ -347,8 +347,8 @@ $$
 which gives
 $$
 \begin{align}
-	&\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \}}\textbf{z}\textbf{z}^\textrm{T}\textrm{d}\textbf{z}\\
-	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\sum_{i=1}^D\sum_{j=1}^D\textbf{u}_i\textbf{u}_j^\textrm{T}\int\exp{\{-\sum_{k=1}^D\frac{y_k^2}{2\lambda_k} \}y_iy_j}\textrm{d}\textbf{y}\\
+	&\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\left\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \right\}}\textbf{z}\textbf{z}^\textrm{T}\textrm{d}\textbf{z}\\
+	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\sum_{i=1}^D\sum_{j=1}^D\textbf{u}_i\textbf{u}_j^\textrm{T}\int\exp{\left\{-\sum_{k=1}^D\frac{y_k^2}{2\lambda_k} \right\}y_iy_j}\textrm{d}\textbf{y}\\
 	&=\sum_{i=1}^D\textbf{u}_i\textbf{u}_j\lambda_i=\boldsymbol{\Sigma}\tag{2.61}
 \end{align}
 $$
@@ -358,7 +358,7 @@ $$
 $$
 *covariance* of a random vector $\textbf{x}$ defined by
 $$
-\textrm{cov}[\textbf{x}]=\mathbb{E}[(\textbf{x}-\mathbb{E}[\textbf{x}])(\textbf{x}-\mathbb{E}[\textbf{x}])^\textrm{T}]\tag{2.63}
+\textrm{cov}[\textbf{x}]=\mathbb{E}\left[(\textbf{x}-\mathbb{E}[\textbf{x}])(\textbf{x}-\mathbb{E}[\textbf{x}])^\textrm{T}\right]\tag{2.63}
 $$
 For Gaussian
 $$
@@ -524,7 +524,7 @@ $$
 	\boldsymbol{\mu}_{ML}^{(N)}&=\frac{1}{N}\sum_{n=1}^N\textbf{x}_n\\
 	&=\frac{1}{N}\textbf{x}_n+\frac{1}{N}\sum_{n=1}^{N-1}\textbf{x}_n\\
 	&=\frac{1}{N}\textbf{x}_n+\frac{N-1}{N}\boldsymbol{\mu}_{ML}^{(N-1)}\\
-	&=\boldsymbol{\mu}_{ML}^{(N-1)}+\frac{1}{N}(\textbf{x}_n-\boldsymbol{\mu}_{ML}^{(N-1)})\tag{2.126}
+	&=\boldsymbol{\mu}_{ML}^{(N-1)}+\frac{1}{N}\left(\textbf{x}_n-\boldsymbol{\mu}_{ML}^{(N-1)}\right)\tag{2.126}
 \end{align}
 $$
 to calculate successive data.
@@ -547,7 +547,7 @@ Find the root $\theta^{\star}$ at which $f(\theta^\star)=0$
 
 We shall assume that the conditional variance of $z$ is finite so that  
 $$
-\mathbb{E}[(z-f)^2|\theta]<\infty\tag{2.128}
+\mathbb{E}\left[(z-f)^2|\theta\right]<\infty\tag{2.128}
 $$
 ![image-20211123152824226](../pic/image-20211123152824226.png)
 
@@ -594,3 +594,8 @@ $$
 
 
 ### 2.3.6 Bayesian inference for the Gaussian
+
+Suppose the variance $\sigma^2$ is known, we inferring the $\mu$ given a set of $N$ observations
+$$
+p(\textbf{X}|\mu)=\prod_{n=1}^Np(x_n|\mu)=\frac{1}{(2\pi\sigma^2)^{N/2}}\exp\left\{-\frac{1}{2\sigma^2}\sum_{n=1}^N(x_n-\mu)^2\right\}\tag{2.137}
+$$
