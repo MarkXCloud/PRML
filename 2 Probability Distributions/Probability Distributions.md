@@ -465,3 +465,132 @@ $$
 \end{pmatrix}\tag{2.101}
 $$
  
+
+Still after a long term...😥
+
+the covariance matrix
+$$
+\textrm{cov}[\textbf{z}]=
+\begin{pmatrix}
+	\boldsymbol{\Lambda}+\textbf{A}^\textrm{T}&\boldsymbol{\Lambda}^{-1}\textbf{A}^\textrm{T}\\
+	\textbf{A}\boldsymbol{\Lambda}^{-1}&\textbf{L}+\textbf{A}\boldsymbol{\Lambda}^{-1}\textbf{A}^\textrm{T}
+\end{pmatrix}\tag{2.105}
+$$
+and
+$$
+\mathbb{E}[\textbf{z}]=
+\begin{pmatrix}
+	\boldsymbol{\mu}\\
+	\textbf{A}\boldsymbol{\mu}+\textbf{b}
+\end{pmatrix}\tag{2.108}
+$$
+
+
+### 2.3.4 Maximum likelihood for the Gaussian
+
+Given a data set $\textbf{X}=(\textbf{x}_1,_\cdots,\textbf{x}_N)^\textrm{T}$, the log likelihood function is given by
+$$
+\ln{p(\textbf{X}|\boldsymbol{\mu},\boldsymbol{\Sigma})}=-\frac{ND}{2}\ln(2\pi)-\frac{N}{2}\ln|\boldsymbol{\Sigma}|-\frac{1}{2}\sum_{n=1}^N(\textbf{x}_n-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}_n-\boldsymbol{\mu})\tag{2.118}
+$$
+By simple rearrangement, we see that the likelihood function depends on the data set only through the two quantities 
+$$
+\sum_{n=1}^N\textbf{x}_n,\ \ \ \ \ \ \ \ \ \ \ \sum_{n=1}^N\textbf{x}_n\textbf{x}_n^{\textrm{T}}\tag{2.119}
+$$
+These are known as the *sufficient statistics* for the Gaussian distribution.  
+
+then we derivative
+$$
+\frac{\partial}{\partial\boldsymbol{\mu}}\ln{p(\textbf{X}|\boldsymbol{\mu},\boldsymbol{\Sigma})}=\sum_{n=1}^N\boldsymbol{\Sigma}^{-1}(\textbf{x}_n-\boldsymbol{\mu})\tag{2.120}
+$$
+we get
+$$
+\boldsymbol{\mu}_{ML}=\frac{1}{N}\sum_{n=1}^N\textbf{x}_n\tag{1.121}
+$$
+and
+$$
+\boldsymbol{\Sigma}_{ML}=\frac{1}{N}\sum_{n=1}^N(\textbf{x}_n-\boldsymbol{\mu}_{ML})(\textbf{x}_n-\boldsymbol{\mu}_{ML})^\textrm{T}\tag{2.122}
+$$
+However the maximum likelihood estimate for the covariance has an expectation that is less than the true value, and hence it is biased. We can correct this bias
+$$
+\widetilde{\boldsymbol{\Sigma}}=\frac{1}{N-1}\sum_{n=1}^N(\textbf{x}_n-\boldsymbol{\mu}_{ML})(\textbf{x}_n-\boldsymbol{\mu}_{ML})^\textrm{T}\tag{1.125}
+$$
+
+
+### 2.3.5 Sequential estimation
+
+We rewrite the $\boldsymbol{\mu}_{ML}$ as 
+$$
+\begin{align}
+	\boldsymbol{\mu}_{ML}^{(N)}&=\frac{1}{N}\sum_{n=1}^N\textbf{x}_n\\
+	&=\frac{1}{N}\textbf{x}_n+\frac{1}{N}\sum_{n=1}^{N-1}\textbf{x}_n\\
+	&=\frac{1}{N}\textbf{x}_n+\frac{N-1}{N}\boldsymbol{\mu}_{ML}^{(N-1)}\\
+	&=\boldsymbol{\mu}_{ML}^{(N-1)}+\frac{1}{N}(\textbf{x}_n-\boldsymbol{\mu}_{ML}^{(N-1)})\tag{2.126}
+\end{align}
+$$
+to calculate successive data.
+
+#### Robbins-Monro algorithm
+
+However, we will not always be able to derive a sequential algorithm by this route, and so we seek a more general formulation of sequential learning, which leads us to the *Robbins-Monro* algorithm.
+
+Consider a joint distribution $p(z,\theta)$
+$$
+f(\theta)\equiv\mathbb{E}[z|\theta]=\int zp(z|\theta)\textrm{d}z\tag{2.127}
+$$
+Functions defined in this way are called *regression functions*.
+
+**Our goal:**
+
+Find the root $\theta^{\star}$ at which $f(\theta^\star)=0$
+
+**Conditions**
+
+We shall assume that the conditional variance of $z$ is finite so that  
+$$
+\mathbb{E}[(z-f)^2|\theta]<\infty\tag{2.128}
+$$
+![image-20211123152824226](../pic/image-20211123152824226.png)
+
+The Robbins-Monro procedure then defines a sequence of successive estimates of the root $\theta^{\star}$ given by  
+$$
+\theta^{(N)}=\theta^{(N-1)}+a_{N-1}z(\theta^{(N-1)})\tag{2.129}
+$$
+
+* $z(\theta^{(N)})$ is an observed value of $z$ with $\theta^{(N)}$
+
+  $\{a_N\}$ represent a sequence of positive numbers that satisfy the conditions  
+  $$
+  \begin{align}
+  	\lim_{N\rightarrow\infty}a_N&=0\tag{2.130}\\
+  	\sum_{N=1}^\infty a_N&=\infty\tag{2.131}\\
+  	\sum_{N=1}^\infty a_N^2&<\infty\tag{2.132}
+  \end{align}
+  $$
+  
+
+For instance:
+
+By definition, the maximum likelihood solution $θ_{ML}$ is a stationary point of the log likelihood function and hence satisfies
+$$
+\frac{\partial}{\partial\theta}\left\{\frac{1}{N}\sum_{n=1}^{N}\ln{p(\textbf{x}_n|\theta)} \right\}\Bigg|_{θ_{ML}}=0\tag{2.133}
+$$
+Exchanging the derivative and the summation, and taking the limit $N → ∞$ we have  
+$$
+\lim_{N\rightarrow\infty}\frac{1}{N}\sum_{n=1}^{N}\frac{\partial}{\partial\theta}\ln{p(\textbf{x}_n|\theta)}=\mathbb{E}_x\left[\frac{\partial}{\partial\theta}\ln p(x|\theta)\right]\tag{2.134}
+$$
+==and so we see that finding the maximum likelihood solution corresponds to finding the root of a regression function.==
+
+apply the Robbins-Monro procedure
+$$
+\theta^{(N)}=\theta^{(N-1)}+a_{N-1}\frac{\partial}{\partial\theta^{(N-1)}}\ln p(x_N|\theta^{(N-1)})\tag{2.135}
+$$
+As a specific example, we consider once again the sequential estimation of the
+mean of a Gaussian distribution, take $\boldsymbol{\mu}_{ML}^{(N)}$ as $\theta^{(N)}$, and the random variable $z$ is given by
+$$
+z=\frac{\partial}{\partial\mu_{ML}}\ln p(x|\mu_{ML},\sigma^2)=\frac{1}{\sigma^2}(x-\mu_{ML})\tag{2.136}
+$$
+![image-20211123155119035](../pic/image-20211123155119035.png)
+
+
+
+### 2.3.6 Bayesian inference for the Gaussian
