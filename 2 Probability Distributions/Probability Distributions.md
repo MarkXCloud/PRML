@@ -313,7 +313,155 @@ $$
 $$
 \begin{align}
 	\mathbb{E}[\textbf{x}]&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \}}\textbf{x}\textrm{d}\textbf{x}\\
-	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \}}(\textbf{z}+\boldsymbol{\mu})\textrm{d}\textbf{z}\\tag{2.58}
+	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \}}(\textbf{z}+\boldsymbol{\mu})\textrm{d}\textbf{z}\tag{2.58}
 \end{align}
 $$
 
+where we have changed variables using $\textbf{z}=\textbf{x}-\boldsymbol{\mu}$, and the $\textbf{z}$ term will vanish due to the odd symmetry.
+
+Thus
+$$
+\mathbb{E}[\textbf{x}]=\boldsymbol{\mu}\tag{2.59}
+$$
+We now consider second order moments of the Gaussian. 
+
+* In the univariate case, we considered the second order moment given by $\mathbb{E}[x^2]$
+* For the multivariate Gaussian, there are $D^2$ second order moments given by $\mathbb{E}[x_ix_j]$
+
+This matrix can be written as
+$$
+\begin{align}
+	\mathbb{E}[\textbf{x}\textbf{x}^\textrm{T}]&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}(\textbf{x}-\boldsymbol{\mu})^\textrm{T}\boldsymbol{\Sigma}^{-1}(\textbf{x}-\boldsymbol{\mu}) \}}\textbf{x}\textbf{x}^\textrm{T}\textrm{d}\textbf{x}\\
+	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \}}(\textbf{z}+\boldsymbol{\mu})(\textbf{z}+\boldsymbol{\mu})^\textrm{T}\textrm{d}\textbf{z}
+\end{align}
+$$
+
+* where we have changed variables using $\textbf{z}=\textbf{x}-\boldsymbol{\mu}$
+* and the $\boldsymbol{\mu}^\textrm{T}\textbf{z}$ and $\boldsymbol{\mu}\textbf{z}^\textrm{T}$ terms will vanish due to the odd symmetry.
+* $\boldsymbol{\mu}\boldsymbol{\mu}^\textrm{T}$ is a constant
+
+consider $\textbf{z}\textbf{z}^\textrm{T}$, we use the eigenvector expansion of the covariance matrix given by (2.45), 
+$$
+\textbf{z}=\sum_{j=1}^Dy_j\textbf{u}_j\tag{2.60}
+$$
+which gives
+$$
+\begin{align}
+	&\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\int \exp{\{-\frac{1}{2}\textbf{z}^\textrm{T}\boldsymbol{\Sigma}^{-1}\textbf{z} \}}\textbf{z}\textbf{z}^\textrm{T}\textrm{d}\textbf{z}\\
+	&=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\boldsymbol{\Sigma|}^{1/2}}\sum_{i=1}^D\sum_{j=1}^D\textbf{u}_i\textbf{u}_j^\textrm{T}\int\exp{\{-\sum_{k=1}^D\frac{y_k^2}{2\lambda_k} \}y_iy_j}\textrm{d}\textbf{y}\\
+	&=\sum_{i=1}^D\textbf{u}_i\textbf{u}_j\lambda_i=\boldsymbol{\Sigma}\tag{2.61}
+\end{align}
+$$
+Thus
+$$
+\mathbb{E}[\textbf{x}\textbf{x}^\textrm{T}]=\boldsymbol{\mu}\boldsymbol{\mu}^\textrm{T}+\boldsymbol{\Sigma}\tag{2.62}
+$$
+*covariance* of a random vector $\textbf{x}$ defined by
+$$
+\textrm{cov}[\textbf{x}]=\mathbb{E}[(\textbf{x}-\mathbb{E}[\textbf{x}])(\textbf{x}-\mathbb{E}[\textbf{x}])^\textrm{T}]\tag{2.63}
+$$
+For Gaussian
+$$
+\textrm{cov}[\textbf{x}]=\boldsymbol{\Sigma}\tag{2.64}
+$$
+
+#### Limitations of Gaussian Distribution
+
+1. $\boldsymbol{\Sigma}$ will have $D(D+1)/2$ independent parameters, grows quadratically.
+2. A further limitation of the Gaussian distribution is that it is intrinsically unimodal (i.e., has a single maximum) and so is unable to provide a good approximation to multimodal distributions. Thus the Gaussian distribution can be both too flexible, in the sense of having too many parameters, while also being too limited in the range of distributions that it can adequately represent.  
+
+### 2.3.1 Conditional Gaussian distributions
+
+> If two sets of variables are jointly Gaussian, then the conditional distribution of one set
+> conditioned on the other is again Gaussian.  
+
+Suppose $\textbf{x}$ is a $D$-dimensional vector, taken apart into $$\textbf{x}$$ of $M$-dimensional and $\textbf{x}_b$ of $D-M$-dimensional
+$$
+\textbf{x}=\binom{\textbf{x}_a}{\textbf{x}_b}\tag{2.65}
+$$
+also
+$$
+\boldsymbol{\mu}=\binom{\boldsymbol{\mu}_a}{\boldsymbol{\mu}_b}\tag{2.66}
+$$
+and 
+$$
+\boldsymbol{\Sigma}=
+\begin{pmatrix}
+	\boldsymbol{\Sigma}_{aa}&\boldsymbol{\Sigma}_{ab}\\
+	\boldsymbol{\Sigma}_{ba}&\boldsymbol{\Sigma}_{bb}
+\end{pmatrix}\tag{2.67}
+$$
+Note that $\boldsymbol{\Sigma}_{aa}$ and $\boldsymbol{\Sigma}_{bb}$ are symmetric and $\boldsymbol{\Sigma}_{ba}^\textbf{T}=\boldsymbol{\Sigma}_{ab}$
+
+we have *precision matrix*
+$$
+\Lambda\equiv\Sigma^{-1}\tag{2.68}
+$$
+therefore
+$$
+\Lambda=
+\begin{pmatrix}
+	\Lambda_{aa}&\Lambda_{ab}\\
+	\Lambda_{ba}&\Lambda_{bb}
+\end{pmatrix}\tag{2.69}
+$$
+Note that $\Lambda_{aa}$ and $\Lambda_{bb}$ are symmetric and $\Lambda_{ba}^\textbf{T}=\Lambda_{ab}$
+
+Finding an expression of $p({\textbf{x}_a}|{\textbf{x}_b})$
+
+After a quite long term...😖
+
+the covariance is given by
+$$
+\boldsymbol{\Sigma}_{a|b}=\Lambda_{aa}^{-1}\tag{2.73}
+$$
+and
+$$
+\boldsymbol{\mu}_{a|b}=\boldsymbol{\mu}_a-\Lambda_{aa}^{-1}\Lambda_{ab}({\textbf{x}_b}-\boldsymbol{\mu}_b)\tag{2.75}
+$$
+
+
+### 2.3.2 Marginal Gaussian distribution
+
+the marginal distribution given by
+$$
+p({\textbf{x}_a})=\int p({\textbf{x}_a},{\textbf{x}_b})\textrm{d}\textbf{x}_b\tag{2.83}
+$$
+which is also Gaussian.
+
+After another long term...😫
+
+The covariance
+$$
+\boldsymbol{\Sigma}_{a}=(\Lambda_{aa}-\Lambda_{ab}\Lambda_{bb}^{-1}\Lambda_{ba})^{-1}\tag{2.88}
+$$
+the mean is given by
+$$
+\boldsymbol{\mu}_{a}\tag{2.89}
+$$
+
+#### Partitioned Gaussian
+
+![image-20211123113110499](../pic/image-20211123113110499.png)
+$$
+p(\textbf{x}_a)=\mathcal{N}(\textbf{x}_a|\boldsymbol{\mu}_a,\boldsymbol{\Sigma}_{aa})\tag{2.98}
+$$
+
+### 2.3.3 Bayes' theorem for Gaussian variables
+
+We take
+$$
+\begin{align}
+	p(\textbf{x})&=\mathcal{N}(\textbf{x}|\boldsymbol{\mu},\boldsymbol{\Lambda}^{-1})\tag{2.99}\\
+	p(\textbf{y}|\textbf{x})&=\mathcal{N}(\textbf{y}|\textbf{Ax}+\textbf{b},\textbf{L}^{-1})\tag{2.100}
+\end{align}
+$$
+First we find an expression for the joint distribution over $\textbf{x}$ and $\textbf{y}$. To do this, we define
+$$
+\textbf{z}=
+\begin{pmatrix}
+	\textbf{x}\\
+	\textbf{y}
+\end{pmatrix}\tag{2.101}
+$$
+ 
