@@ -464,7 +464,7 @@ $$
 	\textbf{y}
 \end{pmatrix}\tag{2.101}
 $$
- 
+
 
 Still after a long term...😥
 
@@ -599,3 +599,227 @@ Suppose the variance $\sigma^2$ is known, we inferring the $\mu$ given a set of 
 $$
 p(\textbf{X}|\mu)=\prod_{n=1}^Np(x_n|\mu)=\frac{1}{(2\pi\sigma^2)^{N/2}}\exp\left\{-\frac{1}{2\sigma^2}\sum_{n=1}^N(x_n-\mu)^2\right\}\tag{2.137}
 $$
+
+### 2.3.7 Student's t-distribution
+
+$$
+\textrm{St}(x|\mu,\lambda,\nu)=\frac{\Gamma(\nu/2+1/2)}{\Gamma(\nu/2)}\left(\frac{\lambda}{\pi\nu}\right)\left[1+\frac{\lambda(x-\mu)^2}{\nu}\right]^{-\nu/2+1/2}\tag{2.159}
+$$
+
+multivariate Student's t-distribution
+$$
+\textrm{St}(\textbf{x}|\boldsymbol{\mu},\boldsymbol{\Lambda},\nu)=\int_{0}^{\infty}{\mathcal{N}(\textbf{x}|\boldsymbol{\mu},(\eta\boldsymbol{\Lambda})^{-1})\textrm{Gam}(\eta|\nu/2,\nu/2)}\textrm{d}\eta\tag{2.161}
+$$
+and
+$$
+\begin{align}
+	\mathbb{E}[\textbf{x}]&=\boldsymbol{\mu},&\text{if }\nu>1\tag{2.164}\\
+	\text{cov}[\textbf{x}]&=\frac{\nu}{(\nu-2)}\boldsymbol{\Lambda}^{-1},&\text{if }\nu>2\tag{2.165}\\
+	\text{mode}[\textbf{x}]&=\boldsymbol{\mu}\tag{2.166}
+\end{align}
+$$
+
+### 2.3.8 Periodic variables
+
+**Main idea:**
+
+Substitute the $\textbf{x}$ in the Cartesian coordinate by $\textbf{x}_n=(\cos\theta_n,\sin\theta_n)$
+
+solve for $\bar{\theta}$ gives
+$$
+\bar{\theta}=\tan^{-1}\left\{\frac{\sum_n\sin\theta_n}{\sum_n\cos\theta_n}\right\}\tag{2.169}
+$$
+However if we use another method to write them into
+$$
+p(x_1,x_2)=\frac{1}{2\pi\sigma^2}\exp\left\{-\frac{(x_1-\mu_1)^2+(x_2-\mu_2)^2}{2\sigma^2}\right\}\tag{2.173}
+$$
+and satisfies
+$$
+\begin{align}
+	p(\theta)&\ge0\tag{2.170}\\
+	\int_{0}^{2\pi}p(\theta)\text{d}\theta&=1\tag{2.171}\\
+	p(\theta+2\pi)&=p(\theta)\tag{2.172}
+\end{align}
+$$
+Applying the log likelihood, we finally get
+$$
+\theta_0^{\text{ML}}=\tan^{-1}\left\{\frac{\sum_n\sin\theta_n}{\sum_n\cos\theta_n}\right\}\tag{2.184}
+$$
+
+### 2.3.9 Mixtures of Gaussians
+
+a superposition of $K$ Gaussian densities of the form
+$$
+p(\textbf{x})=\sum_{k=1}^{K}\pi_k\mathcal{N}(\textbf{x}|\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)\tag{2.188}
+$$
+
+***
+
+
+
+## 2.4 The Exponential Family
+
+The probability distributions that we have studied so far in this chapter (with the exception of the Gaussian mixture) are specific examples of a broad class of distributions called the *exponential family*.
+
+The exponential family gets the form
+$$
+p(\textbf{x}|\boldsymbol{\eta})=h(\textbf{x})g(\boldsymbol{\eta})\exp\left\{\boldsymbol{\eta}^{\text{T}}\textbf{u}(\textbf{x})\right\}\tag{2.194}
+$$
+and satisfies
+$$
+g(\boldsymbol{\eta})\int h(\textbf{x})\exp\left\{\boldsymbol{\eta}^{\text{T}}\textbf{u}(\textbf{x})\right\}\text{d}\textbf{x}=1\tag{2.195}
+$$
+
+### 2.4.1 Maximum likelihood and sufficient statistics
+
+Take the gradient of both sides of (2.195) with respect to $\eta$, we have
+$$
+\nabla g(\boldsymbol{\eta})\int h(\textbf{x})\exp\left\{\boldsymbol{\eta}^{\text{T}}\textbf{u}(\textbf{x})\right\}\text{d}\textbf{x}+g(\boldsymbol{\eta})\int h(\textbf{x})\exp\left\{\boldsymbol{\eta}^{\text{T}}\textbf{u}(\textbf{x})\right\}\textbf{u}(\textbf{x})\text{d}\textbf{x}=0\tag{2.224}
+$$
+Rearranging
+$$
+-\frac{1}{g(\boldsymbol{\eta})}\nabla g(\boldsymbol{\eta})=g(\boldsymbol{\eta})\int h(\textbf{x})\exp\left\{\boldsymbol{\eta}^{\text{T}}\textbf{u}(\textbf{x})\right\}\textbf{u}(\textbf{x})\text{d}\textbf{x}=\mathbb{E}[\textbf{u}(\textbf{x})]\tag{2.225}
+$$
+So
+$$
+-\nabla\ln g(\boldsymbol{\eta})=\mathbb{E}[\textbf{u}(\textbf{x})]\tag{2.226}
+$$
+And if we take the likelihood of a set of $\textbf{X}$, we still get
+$$
+-\nabla\ln g(\boldsymbol{\eta}_{\text{ML}})=\frac{1}{N}\sum_{n=1}^{N}\textbf{u}(\textbf{x}_n)\tag{2.228}
+$$
+Since the solution for the maximum likelihood estimator depends on the data only through $\sum_{n=1}^{N}\textbf{u}(\textbf{x}_n)$ which is therefore called the *sufficient statistic* of the distribution (2.194).   
+
+### 2.4.2 Conjugate priors
+
+In general, for a given probability distribution $p(\textbf{x}|\boldsymbol{η})$, we can seek a prior $p(\boldsymbol{η})$ that is conjugate to the likelihood function, so that the posterior distribution has the same functional form as the prior. 
+
+For any member of the exponential family (2.194), there exists a conjugate prior that can be written in the form
+$$
+p(\boldsymbol{\eta}|\boldsymbol{\chi},\nu)=f(\boldsymbol{\chi},\nu)g(\boldsymbol{\eta})^\nu\exp\left\{\nu\boldsymbol{\eta}^{\text{T}}\boldsymbol{\chi}\right\}\tag{2.229}
+$$
+
+### 2.4.3 Noninformative priors
+
+In some applications of probabilistic inference, we may have prior knowledge that can be conveniently expressed through the prior distribution. 
+
+We may then seek a form of prior distribution, called a *noninformative prior*, which is intended to have as little influence on the posterior distribution as possible.
+
+Here we consider two simple examples of noninformative priors (Berger, 1985). First of all, if a density takes the form  
+$$
+p(x|\mu)=f(x-\mu)\tag{2.232}
+$$
+$\mu$ is known as *location parameter*.
+
+This family of densities exhibits *translation invariance* because if we shift $x$ by a constant to give $\hat{x}=x+c$, then
+$$
+p(\hat{x}|\hat{\mu})=f(\hat{x}-\hat{\mu})\tag{2.233}
+$$
+where $\hat{\mu}=\mu+c$
+
+Thus the density takes the same form in the new variable as in the original one, and so the density is independent of the choice
+of origin. 
+
+Second example
+$$
+p(x|\sigma)=\frac{1}{\sigma}f(\frac{x}{\sigma})\tag{2.236}
+$$
+$\sigma$ is known as *scale parameter*, and the density exhibits *scale invariance* because if we scale $x$ by a constant to give $\hat{x}=cx$, then
+$$
+p(\hat{x}|\hat{\sigma})=\frac{1}{\hat{\sigma}}f(\frac{\hat{x}}{\hat{\sigma}})\tag{2.237}
+$$
+
+***
+
+
+
+## 2.5 Nonparametric Methods
+
+*parametric approach*: probability distributions having specific functional forms governed by a small number of parameters whose values are to be determined from a data set.
+
+Disadvantage: the chosen density might be a poor model of the distribution that generates the data, which can result in poor predictive performance.
+
+*nonparametric approach*: make few assumptions about the form of the distribution.
+
+#### **Example: Histogram**
+
+Standard histograms simply partition $x$ into distinct bins of width $\Delta_i$ and then count the number $n_i$ of observations of $x$ falling in bin $i$. Divide the total number $N$ to normalize. So in every bins the probability density is given by
+$$
+p_i=\frac{n_i}{N\Delta_i}\tag{2.241}
+$$
+![image-20211201160605527](../pic/image-20211201160605527.png)
+
+* Advantages:
+  * Note that the histogram method has the property (unlike the methods to be discussed shortly) that, once the histogram has been computed, the data set itself can be discarded, which can be advantageous if the data set is large.
+  *  Also, the histogram approach is easily applied if the data points are arriving sequentially.
+* Disadvantages:
+  * discontinuities that are due to the bin edges rather than any property of the underlying distribution that generated the data
+  * If we divide each variable in a $D$-dimensional space into $M$ bins, then the total number of bins will be $M^D$. This exponential scaling with $D$ is an example of the curse of dimensionality.  
+
+**Two important insights:**
+
+1. First, to estimate the probability density at a particular location, we should consider the data points that lie within some local neighborhood of that point.
+2. Second, the value of the smoothing parameter should be neither too large nor too small in order to obtain good results.
+
+
+
+### 2.5.1 Kernel density estimators
+
+Suppose:
+
+a probability density $p(\textbf{x})$ in some $D$-dimensional space
+
+**We want:**
+
+Estimate $p(\textbf{x})$
+
+In some small region $\mathcal{R}$ containing $\textbf{x}$
+$$
+P=\int_\mathcal{R}p(\textbf{x})\text{d}\textbf{x}\tag{2.242}
+$$
+Now we collect $N$ observations from $p(\textbf{x})$, and $K$ points lie inside $\mathcal{R}$ and will be distributed according to the binomial distribution
+$$
+\text{Bin}(K|N,P)=\frac{N!}{K!(N-K)!}P^K(1-P)^{1-K}\tag{2.243}
+$$
+For large $N$, we have
+$$
+K\simeq NP\tag{2.244}
+$$
+
+If, however, we also assume that the region $\mathcal{R}$ is sufficiently small that the probability density $p(\textbf{x})$ is roughly constant over the region, then we have 
+$$
+P\simeq p(\textbf{x})V\tag{2.245}
+$$
+where $V$ is the volume of $\mathcal{R}$. Combining (2.244) and (2.245), we obtain our density estimate in the form  
+$$
+p(\textbf{x})=\frac{K}{NV}\tag{2.246}
+$$
+In order to count the number $K$ of points falling within this region, it is convenient to define the following function
+$$
+k(\textbf{u})=
+\begin{cases}
+	&1,&|u_i|\le1/2,\ i=1,_\cdots, D,\\
+	&0,&\text{otherwise}
+\end{cases}\tag{2.247}
+$$
+$k(\textbf{u})$ is an example of a *kernel function*, and in this context is also called a *Parzen window*.  
+
+The quantity $k((\textbf{x}-\textbf{x}_n)/h)$ will be 1 if the data point $\textbf{x}_n$ lies inside a cube of side $h$ centered on $\textbf{x}$. The total number of data points lying inside this cube will therefore be
+$$
+K=\sum_{n=1}^Nk\left(\frac{\textbf{x}-\textbf{x}_n}{h}\right)\tag{2.248}
+$$
+Substituting this expression into (2.246) then gives the following result for the estimated density at $\textbf{x}$  
+$$
+p(\textbf{x})=\frac{1}{N}\sum_{n=1}^N\frac{1}{h^D}k\left(\frac{\textbf{x}-\textbf{x}_n}{h}\right)\tag{2.249}
+$$
+where $V=h^D$
+
+We can obtain a smoother density model if we choose a smoother kernel function, and a common choice is the Gaussian, which gives rise to the following kernel density model
+$$
+p(\textbf{x})=\frac{1}{N}\sum_{n=1}^N\frac{1}{(2\pi h^2)^{1/2}}\exp\left\{-\frac{||\textbf{x}-\textbf{x}_n||^2}{2h^2}\right\}\tag{2.250}
+$$
+![image-20211201165105812](../pic/image-20211201165105812.png)
+
+### 2.5.2 Nearest-neighbour methods
+
+![image-20211201165330071](../pic/image-20211201165330071.png)
