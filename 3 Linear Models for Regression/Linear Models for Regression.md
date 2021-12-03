@@ -268,3 +268,72 @@ $$
 
 ## 3.3 Bayesian Linear Regression
 
+> We therefore turn to a Bayesian treatment of linear regression, which will avoid the over-fitting problem of maximum likelihood, and which will also lead to automatic methods of determining model complexity using the training data alone.  
+
+### 3.3.1 Parameter distribution
+
+First note that the likelihood function $p(\textsf{t}|\textbf{w})$ defined by (3.10) is the exponential of a quadratic function of $\textbf{w}$
+
+> Why quadratic from (3.10)?
+>
+> Well yes it's quadratic since there is a ^2 in the exponential.
+
+The corresponding conjugate prior is therefore given by a Gaussian distribution of the form
+$$
+p(\textbf{w})=\mathcal{N}(\textbf{w}|\textbf{m}_0,\textbf{S}_0)\tag{3.48}
+$$
+having mean $\textbf{m}_0$ and covariance $\textbf{S}_0$.
+
+Next we compute the posterior distribution, which is proportional to the product of the likelihood function and the prior.
+
+Due to the choice of a conjugate Gaussian prior distribution, the posterior will also be Gaussian.  From (2.116)we get
+$$
+p(\textbf{w}|\textsf{t})=\mathcal{N}(\textbf{w}|\textbf{m}_N,\textbf{S}_N)\tag{3.49}
+$$
+where
+$$
+\begin{align}
+	m_N&=\textbf{S}_N(\textbf{S}_0^{-1}\textbf{m}_0+\beta\Phi^{\text{T}}\textsf{t})\tag{3.50}\\
+	\textbf{S}_N^{-1}&=\textbf{S}_0^{-1}+\beta\Phi^{\text{T}}\Phi\tag{3.51}
+\end{align}
+$$
+For the remainder of this chapter, we shall consider a particular form of Gaussian prior in order to simplify the treatment.   Specifically, we consider a zero-mean isotropic Gaussian governed by a single precision parameter $\alpha$ so that
+$$
+\begin{align}
+	m_N&=\beta\textbf{S}_N\Phi^{\text{T}}\textsf{t}\tag{3.53}\\
+	\textbf{S}_N^{-1}&=\alpha\textbf{I}+\beta\Phi^{\text{T}}\Phi\tag{3.54}
+\end{align}
+$$
+The log of the posterior distribution
+$$
+\ln p(\textbf{w}|\textsf{t})=-\frac{\beta}{2}\sum_{n=1}^N\{t_n-\textbf{w}^\text{T}\phi(\textbf{x}_n)\}^2-\frac{\alpha}{2}\textbf{w}^\text{T}\textbf{w}+\text{const}\tag{3.55}
+$$
+![image-20211203170047324](../pic/image-20211203170047324.png)
+
+### 3.3.2 Predictive distribution
+
+We evaluate the *predictive distribution* defined by
+$$
+p(t|\textsf{t},\alpha,\beta)=\int p(t|\textbf{w},\beta)p(\textbf{w}|\textsf{t},\alpha,\beta)\text{d}\textbf{w}\tag{3.57}
+$$
+in which $\textsf{t}$ is the vector of target values from the training set
+
+We see that (3.57) involves the convolution of two Gaussian distributions, and so making use of the result (2.115) from Section 8.1.4, we see that the predictive distribution takes the form
+$$
+p(t|\textbf{x},\textsf{t},\alpha,\beta)=\mathcal{N}(t|\textbf{m}_N^\text{T}\phi(\textbf{x}),\sigma_N^2(\textbf{x}))\tag{3.58}
+$$
+where the variance $\sigma_N^2(\textbf{x})$ of the predictive distribution is given by
+$$
+\sigma_N^2(\textbf{x})=\frac{1}{\beta}+\phi(\textbf{x})^\text{T}\textbf{S}_N\phi(\textbf{x})\tag{3.59}
+$$
+![image-20211203171938802](../pic/image-20211203171938802.png)
+
+* We fit a model comprising a linear combination of Gaussian basis functions to data sets of various sizes and then look at the corresponding posterior distributions. 
+  * the green curves correspond to the function $\sin(2\pi x)$
+  * Data sets of size $N = 1$,$N = 2$, $N = 4$, and $N = 25$, blue circles
+  * red curve shows the mean of the corresponding Gaussian predictive distribution
+  * red shaded region spans one standard deviation either side of the mean  
+
+![image-20211203172429935](../pic/image-20211203172231974.png)
+
+If we used localized basis functions such as Gaussians, then in regions away from the basis function centres, the contribution from the second term in the predictive variance (3.59) will go to zero, leaving only the noise contribution $\beta^{-1}$
