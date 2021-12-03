@@ -153,3 +153,118 @@ $$
 for an appropriate value of the parameter $\eta$.
 
 ![image-20211201200410232](../pic/image-20211201200410232.png)
+
+### 3.1.5 Multiple outputs
+
+**Difference:**
+
+$\textbf{t}$ has $K$-dimension. So we take the form
+$$
+\textbf{y}(\textbf{x},\textbf{w})=\textbf{W}^{\text{T}}\phi(\textbf{x})\tag{3.31}
+$$
+
+* $\textbf{y}$ is a $K$-dimensional vector
+* $\textbf{W}$ is an $M\times K$ matrix
+* $\phi(\textbf{x})$ is an $M$-dimensional column vector with elements $\phi_j(\textbf{x})$, with $\phi_0(\textbf{x})$ =1
+
+Suppose we take the conditional distribution of the target vector to be an isotropic Gaussian of the form  
+$$
+p(\textsf{t}|\textbf{x},\textbf{W},\beta)=\mathcal{N}(\textsf{t}|\textbf{W}^{\text{T}}\phi(\textbf{x}),\beta^{-1}\textbf{I})\tag{3.32}
+$$
+If we have a set of observations $\textbf{t}_1,\dots,\textbf{t}_N$, combine them into a matrix $\textbf{T}$ of size $N\times K$, so that
+$$
+\textbf{T}=
+\begin{pmatrix}
+	\textsf{t}_1^\text{T}\\
+	\textsf{t}_2^\text{T}\\
+	\vdots\\
+	\textsf{t}_N^\text{T}\\
+\end{pmatrix}
+$$
+Similarly combine $\textbf{X}$. The log likelihood function is then given by
+$$
+\begin{align}
+	p(\textbf{T}|\textbf{X},\textbf{W},\beta)&=\sum_{n=1}^N\ln \mathcal{N}(\textsf{t}|\textbf{W}^{\text{T}}\phi(\textbf{x}),\beta^{-1}\textbf{I})\\
+	&=\frac{NK}{2}\ln\left(\frac{\beta}{2\pi}\right)-\frac{\beta}{2}\sum_{n=1}^N||\textbf{t}_n-\textbf{W}^{\text{T}}\phi(\textbf{x})||^2\tag{3.33}
+\end{align}
+$$
+  Maximum with respect to $\textbf{W}$, giving
+$$
+\textbf{W}_{\text{ML}}=\left(\boldsymbol{\Phi}^{\text{T}}\boldsymbol{\Phi}\right)^{-1}\boldsymbol{\Phi}^{\text{T}}\textbf{T}\tag{3.34}
+$$
+If we examine this result for each target variable $t_k$, we have
+$$
+\textbf{w}_k=\left(\boldsymbol{\Phi}^{\text{T}}\boldsymbol{\Phi}\right)^{-1}\boldsymbol{\Phi}^{\text{T}}\textsf{t}_k=\boldsymbol{\Phi}^\dagger\textsf{t}_k\tag{3.35}
+$$
+where $\textsf{t}_k$ is an $N$-dimensional column vector with components $t_{nk}$ for $n=1,\dots,N$.
+
+Thus the solution to the regression problem decouples between the different target variables.
+
+***
+
+
+
+## 3.2 The Bias-Variance Decomposition
+
+**Problem:**
+
+Although the introduction of regularization terms can control over-fitting for models with many parameters, this raises the question of how to determine a suitable value for the regularization coefficient $\lambda$.
+
+**Our method:**
+
+A frequentist viewpoint of the model complexity issue, known as the *bias-variance* trade-off.
+
+Consider the squared loss function, for which the optimal prediction is given by the conditional expectation, which we denote by
+$$
+h(\textbf{x})=\mathbb{E}[t|\textbf{x}]=\int tp(t|\textbf{x})\text{d}t\tag{3.36}
+$$
+We showed in Section 1.5.5 that the expected squared loss can be written in the form
+$$
+\mathbb{E}[L]=\int \{y(\textbf{x})-h(\textbf{x})\}^2p(\textbf{x})\text{d}\textbf{x}+\int \{h(\textbf{x})-t)\}^2\text{d}\textbf{x}\text{d}t\tag{3.37}
+$$
+
+* The second term arises from the intrinsic noise on the data and represents the minimum achievable value of the expected loss.  
+* The first term depends on $y(\textbf{x})$, which we should minimize.
+
+Consider the first term of (3.37) with **multiple data sets**, which for a particular data set $\mathcal{D}$ takes the form
+$$
+\{y(\textbf{x};\mathcal{D})-h(\textbf{x})\}^2\tag{3.38}
+$$
+Because this quantity will be dependent on the particular data set D, we take its average over the ensemble of data sets. Do some tricks we obtain
+$$
+\begin{align}
+	&\{y(\textbf{x};\mathcal{D})-\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]+\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]-h(\textbf{x})\}^2\\
+	=&\{y(\textbf{x};\mathcal{D})-\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]\}^2+\{\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]-h(\textbf{x})\}^2\\
+	&+2\{y(\textbf{x};\mathcal{D})-\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]\}\{\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]-h(\textbf{x})\}\tag{3.40}
+\end{align}
+$$
+Take the expectation with respect to $\mathcal{D}$ and note that the final term will vanish, giving
+$$
+\begin{align}
+&\mathbb{E}_\mathcal{D}[\{y(\textbf{x};\mathcal{D})-h(\textbf{x})\}^2]\\
+&=\underbrace{\{\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]-h(\textbf{x})\}^2}_{\color{blue}{\text{(bias)}}^2}+\underbrace{\mathbb{E}_\mathcal{D}[\{y(\textbf{x};\mathcal{D})-\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]\}^2]}_{\color{red}{\text{variance}}}\tag{3.40}
+\end{align}
+$$
+
+* The first term, called the squared *bias*, represents the extent to which the average prediction over all data sets differs from the desired regression function.  
+* The second term, called the *variance*, measures the extent to which the solutions for individual data sets vary around their average, and hence this measures the extent to which the function $y(\textbf{x};\mathcal{D})$ is sensitive to the particular choice of data set.  
+
+If we substitute this expansion back into (3.37), we obtain the following decomposition of the expected squared loss
+$$
+\text{expected loss}=(\text{bias})^2+\text{variance}+\text{noise}\tag{3.41}
+$$
+where
+$$
+\begin{align}
+	(\text{bias})^2&=\int \{\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]-h(\textbf{x})\}^2p(\textbf{x})\text{d}\textbf{x}\tag{3.42}\\
+	\text{variance}&=\int \mathbb{E}_\mathcal{D}[\{y(\textbf{x};\mathcal{D})-\mathbb{E}_\mathcal{D}[y(\textbf{x};\mathcal{D})]\}^2]p(\textbf{x})\text{d}\textbf{x}\tag{3.43}\\
+	\text{noise}&=\int\{h(\textbf{x})-t)\}^2p(\textbf{x},t)\text{d}\textbf{x}\text{d}t\tag{3.44}
+\end{align}
+$$
+
+***
+
+
+
+## 3.3 Bayesian Linear Regression
+
