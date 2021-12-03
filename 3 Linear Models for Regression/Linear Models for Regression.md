@@ -337,3 +337,42 @@ $$
 ![image-20211203172429935](../pic/image-20211203172231974.png)
 
 If we used localized basis functions such as Gaussians, then in regions away from the basis function centres, the contribution from the second term in the predictive variance (3.59) will go to zero, leaving only the noise contribution $\beta^{-1}$
+
+### 3.3.3 Equivalent kernel
+
+If we substitute (3.53) into the expression (3.3), we see that the predictive mean can be written in the form  
+$$
+y(\textbf{x},\textbf{m}_N)=\textbf{m}_N^\text{T}\phi(\textbf{x})=\beta\phi(\textbf{x})^\text{T}\textbf{S}_N\Phi(\textbf{x})^\text{T}\textsf{t}=\sum_{n=1}^N\beta\phi(\textbf{x})^\text{T}\textbf{S}_N\phi(\textbf{x})_nt_n\tag{3.60}
+$$
+Thus the mean of the predictive distribution at a point $\textbf{x}$ is given by a linear combination of the training set target variables $t_n$, so that we can write
+$$
+y(\textbf{x},\textbf{m}_N)=\sum_{n=1}^Nk(\textbf{x},\textbf{x}_n)t_n\tag{3.61}
+$$
+where the function
+$$
+k(\textbf{x},\textbf{x}^\prime)=\beta\phi(\textbf{x})^\text{T}\textbf{S}_N\phi(\textbf{x}^\prime)\tag{3.62}
+$$
+is known as the *smoother matrix* or the *equivalent kernel*. 
+
+Regression functions, such as this, which make predictions by taking linear combinations of the training set target values are known as *linear smoothers*.  
+
+We see that the mean of the predictive distribution at $x$, given by $y(\textbf{x},\textbf{m}_N)$, is obtained by forming a weighted combination of the target values in which data points close to $x$ are given higher weight than points further removed from $x$.   
+
+Further insight into the role of the equivalent kernel can be obtained by considering the covariance between $y(\textbf{x})$ and $y(\textbf{x}^\prime)$, which is given by
+$$
+\begin{align}
+	\text{cov}[y(\textbf{x}),y(\textbf{x}^\prime)]&=\text{cov}[\phi(\textbf{x})^\text{T}\textbf{w},\textbf{w}^\text{T}\phi(\textbf{x}^\prime)]\\
+	&=\phi(\textbf{x})^\text{T}\textbf{S}_N\phi(\textbf{x}^\prime)=\beta^{-1}k(\textbf{x},\textbf{x}^\prime)
+\end{align}\tag{3.63}
+$$
+From the form of the equivalent kernel, we see that the predictive mean at nearby points will be highly correlated, whereas for more distant pairs of points the correlation will be smaller.
+
+And intuitively
+$$
+\sum_{n=1}^Nk(\textbf{x},\textbf{x}_n)=1\tag{3.64}
+$$
+Finally, we note that the equivalent kernel (3.62) satisfies an important property shared by kernel functions in general, namely that it can be expressed in the form an inner product with respect to a vector ψ(x) of nonlinear functions, so that  
+$$
+k(\textbf{x},\textbf{z})=\psi(\textbf{x})^\text{T}\psi(\textbf{z})\tag{3.65}
+$$
+where $\psi(\textbf{x})=\beta^{1/2}\textbf{S}_N^{1/2}\phi(\textbf{x})$.
